@@ -18,9 +18,18 @@ const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 const userI = initDataUnsafe.user ? initDataUnsafe.user.id : null;
 const userFirstName = initDataUnsafe.user ? initDataUnsafe.user.first_name : null;
 
+let mybalance;
+
+fetch('https://probots.uz/api/main.php?uid='+userI, { method: 'GET' })
+  .then(response => response.json())
+  .then(data => {
+    mybalance = data.balance;
+  })
+  .catch(error => console.error('Error:', error));
+
       const user = {
         id: userI,
-        balance: 10000,
+        balance: mybalance,
         name: userFirstName
       }
     </script>
