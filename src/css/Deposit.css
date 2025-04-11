@@ -1,0 +1,314 @@
+.deposit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #ffffff;
+  padding: 0px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.deposit-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07), 0 1px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 30px;
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.deposit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 12px rgba(0, 0, 0, 0.06);
+}
+
+.deposit-header {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.deposit-header h2 {
+  color: #2e51a0;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.deposit-header p {
+  color: #5d6b85;
+  font-size: 14px;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.payment-method {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 15px 8px;
+  border: 2px solid #eaeaea;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  background-color: #fcfcfc;
+}
+
+.payment-method:hover {
+  border-color: #d1e2ff;
+  background-color: #f7faff;
+  transform: translateY(-2px);
+}
+
+.payment-method.selected {
+  border-color: #4c6fff;
+  background-color: #f0f6ff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(76, 111, 255, 0.15);
+}
+
+.payment-logo {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.payment-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.payment-method.selected .payment-logo img {
+  transform: scale(1.05);
+}
+
+.payment-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #5d6b85;
+  margin-top: 2px;
+}
+
+.payment-method.selected .payment-name {
+  color: #4c6fff;
+  font-weight: 600;
+}
+
+.check-mark {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  background-color: #4c6fff;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.form-section {
+  animation: fadeIn 0.5s ease;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5d6b85;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e6e6e6;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e3b52;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: #fcfcfc;
+}
+
+input[type="number"]:focus {
+  border-color: #4c6fff;
+  box-shadow: 0 0 0 4px rgba(76, 111, 255, 0.12);
+  outline: none;
+  background-color: #ffffff;
+}
+
+input[type="number"]::placeholder {
+  color: #a3adc2;
+}
+
+.currency-label {
+  position: absolute;
+  right: 16px;
+  font-weight: 600;
+  color: #5d6b85;
+  font-size: 16px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  background-color: #fff2f0;
+  color: #ff4d4f;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  animation: shake 0.5s ease;
+  border-left: 4px solid #ff4d4f;
+}
+
+.error-message span {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.deposit-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #4c6fff, #3350cc);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(76, 111, 255, 0.25);
+}
+
+.deposit-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3b5be0, #2845bf);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(76, 111, 255, 0.3);
+}
+
+.deposit-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(76, 111, 255, 0.2);
+}
+
+.deposit-button.disabled {
+  background: linear-gradient(135deg, #b0b7c9, #8c95a9);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+.deposit-button.loading {
+  background: linear-gradient(135deg, #4c6fff, #3350cc);
+  cursor: wait;
+}
+
+.deposit-button.success {
+  background: linear-gradient(135deg, #29cc97, #19a77c);
+}
+
+.success-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.secure-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  color: #8494aa;
+  font-size: 13px;
+}
+
+.lock-icon {
+  margin-right: 6px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mobil qurilmalar uchun moslashtirishlar */
+@media (max-width: 480px) {
+  .deposit-card {
+    padding: 20px 15px;
+  }
+  
+  .payment-methods {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .payment-method {
+    padding: 10px 5px;
+  }
+  
+  .payment-name {
+    font-size: 12px;
+  }
+  
+  input[type="number"] {
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+  
+  .deposit-button {
+    padding: 14px;
+  }
+}

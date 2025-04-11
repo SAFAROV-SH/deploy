@@ -1,0 +1,118 @@
+.rewards-banner {
+  background: whitesmoke; /* Orqa fonni #eee rangida sozlash */
+  border-radius: 12px;
+  width: 98%;
+  margin: auto;
+  min-height: 200px; /* Balandlikni minimum qilib sozlash */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  margin-top: 10px;
+}
+
+.rewards-banner-content {
+  flex: 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333; /* Yengil kulrang matn */
+}
+
+.rewards-banner-content h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  color: #333; /* Matn rangini qora kulrang qilib qo'yish */
+}
+
+.rewards-banner-content p {
+  margin: 8px 0 15px;
+  color: #666; /* Sarg'ishroq kulrang rang */
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.rewards-stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.rewards-stat-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.rewards-stat-item.bonus {
+  background-color: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.rewards-stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333; /* Matn rangini qora kulrang qilib qo'yish */
+}
+
+.rewards-stat-item.bonus .rewards-stat-value {
+  color: #ffd700; /* Bonus uchun oltin rang */
+}
+
+.rewards-stat-label {
+  font-size: 12px;
+  color: #666; /* Sarg'ishroq kulrang */
+  margin-top: 2px;
+}
+
+.rewards-banner-icon {
+  flex: 0 0 60px;
+  height: 60px;
+  width: 60px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.rewards-banner-icon i {
+  font-size: 30px;
+  color: #ffd700;
+}
+
+/* Responsiv dizayn */
+@media (max-width: 600px) {
+  .rewards-banner {
+      flex-direction: column;
+      text-align: center;
+      min-height: auto;
+  }
+
+  .rewards-banner-icon {
+      margin-right: 0;
+      margin-bottom: 15px;
+  }
+
+  .rewards-stats {
+      justify-content: center;
+  }
+}

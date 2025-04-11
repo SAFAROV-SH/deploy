@@ -1,0 +1,99 @@
+/* Game header ko'rinishi */
+.game-header1 {
+  width: 100% !important;
+  height: 7vh !important;
+  background-color: #ffffff !important; /* Oq fon */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* Foydalanuvchi ma'lumotlari ko'rinishi */
+.user-info1 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: 70% !important;
+}
+
+.user-info1 img {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  border: 2px solid #3498db !important; /* Rasm atrofiga chegara */
+}
+
+.user-info1 span {
+  font-size: 16px !important;
+  color: #2c3e50 !important; /* To'q ko'k rang */
+  font-family: 'Roboto', 'Segoe UI', sans-serif !important; /* Yangi shrift */
+  font-weight: 600 !important; /* O'rtacha qalin */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: calc(100% - 38px) !important;
+  letter-spacing: 0.3px !important; /* Harflar orasidagi masofa */
+}
+
+/* Balance ma'lumotlari ko'rinishi */
+.balance-info1 {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important; /* Gap hajmi oshirildi */
+  white-space: nowrap !important;
+  background-color: hsl(210, 17%, 98%) !important; /* Engil kulrang fon */
+  padding: 5px 15px !important; /* Ichki masofa */
+  border-radius: 20px !important; /* Yumuloq burchaklar */
+  border: 1px solid chartreuse !important; /* Chegara */
+}
+
+.balance-info1 img {
+  width: 22px !important;
+  height: 22px !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+}
+
+.balance-info1 span {
+  font-size: 15px !important;
+  color: #e74c3c !important; /* Yorqin qizil rang */
+  font-family: 'Roboto', 'Segoe UI', sans-serif !important; /* Yangi shrift */
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  line-height: 1 !important;
+  font-weight: 600 !important; /* O'rtacha qalin */
+}
+
+/* Mobil uchun responsivlik */
+@media (max-width: 600px) {
+  .game-header1 {
+    height: auto !important;
+    flex-wrap: wrap !important;
+    padding: 8px 12px !important;
+  }
+
+  .user-info1 span {
+    font-size: 14px !important;
+  }
+
+  .balance-info1 span {
+    font-size: 15px !important;
+    color: coral !important;
+  }
+
+  .user-info1 img,
+  .balance-info1 img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}

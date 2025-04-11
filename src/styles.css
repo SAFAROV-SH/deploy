@@ -1,0 +1,585 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: rgb(251, 242, 242);
+  width: 100%;
+  margin: auto;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.mobile-app {
+  max-width: 480px;
+  margin: 0 auto;
+  height: calc(100vh - 60px);
+  background-color: white;
+  overflow-y: auto;
+  padding-bottom: 70px;
+}
+
+
+.main-content {
+  padding-top: 5px;
+  padding: 16px;
+  padding-bottom: 5px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card, .balance-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Referal Statistics Card */
+.referal-stats-card {
+  background: linear-gradient(to right, #2196F3, #3f51b5);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  margin-bottom: 10px;
+  display: flex; /* Flexbox qo'shildi */
+  flex-direction: column; /* Flexbox yo'nalishi ustunlikka o'zgartirildi */
+  margin-top: 10px;
+}
+
+.referal-stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Kichik ekranlarda qatorlarni o'zaro joylashtirish */
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Har bir stat-item kengligini tenglashtirish */
+  min-width: 120px; /* Minimal kenglik belgilandi */
+  margin: 5px; /* Har bir stat-item o'rtasida bo'sh joy */
+}
+
+.stat-icon {
+  font-size: 32px; /* Katta ikonka o'lchami */
+  margin-right: 10px;
+  opacity: 0.9;
+}
+
+.stat-info h3 {
+  font-size: 28px; /* Katta matn o'lchami */
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 14px; /* Katta matn o'lchami */
+  opacity: 0.9;
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .referal-stats-card {
+      padding: 10px; /* Kichik ekranlar uchun paddingni kamaytirish */
+  }
+
+  .stat-info h3 {
+      font-size: 22px; /* Kichik ekranlar uchun matn o'lchamini kamaytirish */
+  }
+
+  .stat-info p {
+      font-size: 11px; /* Kichik ekranlar uchun matn o'lchamini kamaytirish */
+  }
+}
+
+.referal-progress {
+  margin-top: 15px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+/* Section Title */
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.section-title i {
+  color: #2196F3;
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.section-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Referal Link */
+.referal-link-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.referal-link {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.referal-link input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px 0 0 5px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.referal-link button {
+  padding: 0 15px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.referal-link button i {
+  margin-right: 5px;
+}
+
+/* Friends List */
+.referal-friends-list {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.friend-item:last-child {
+  border-bottom: none;
+}
+
+.friend-item.pending {
+  background-color: #f9f9f9;
+}
+
+.friend-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #e3f2fd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.friend-avatar i {
+  color: #2196F3;
+  font-size: 18px;
+}
+
+.friend-info {
+  flex: 1;
+}
+
+.friend-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.friend-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #757575;
+}
+
+.friend-status {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-active {
+  color: #4CAF50;
+}
+
+.status-pending {
+  color: #FF9800;
+}
+
+.friend-status i {
+  margin-right: 3px;
+}
+
+/* Tasks Section */
+.social-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-task-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-task-item.completed {
+  background-color: #f8fffe;
+  border-left: 3px solid #4CAF50;
+}
+
+.social-task-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: white;
+  font-size: 24px;
+}
+
+.social-task-icon.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-task-icon.telegram {
+  background-color: #0088cc;
+}
+
+.social-task-icon.facebook {
+  background-color: #3b5998;
+}
+.social-task-icon.youtube {
+  background: linear-gradient(45deg, #ff0000, #cc0000);
+}
+.social-task-info {
+  flex: 1;
+}
+
+.social-task-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.social-task-info p {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: #666;
+  max-width: 92%; /* Matnning maksimal kengligini belgilash */
+  overflow: hidden; /* Ortga chiqadigan matnni yashirish */
+  text-overflow: ellipsis; /* Ortga chiqadigan matnni ellipsis bilan ko'rsatish */
+  white-space: nowrap; /* Matnni bitta qatorga joylashtirish */
+}
+
+.social-task-action {
+  color: #aaa;
+  font-size: 18px;
+}
+
+.social-task-action.completed {
+  color: #4CAF50;
+  font-size: 22px;
+}
+
+/* Task Bonus Card */
+.task-bonus-card {
+  display: flex;
+  background-color: #fff9e6;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-top: 15px;
+  border-left: 3px solid #FFC107;
+}
+
+.task-bonus-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #FFC107;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: white;
+  font-size: 24px;
+}
+
+.task-bonus-info {
+  flex: 1;
+}
+
+.task-bonus-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.task-bonus-info p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.task-progress-bar {
+  height: 6px;
+  background-color: rgba(255, 193, 7, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.task-progress-fill {
+  height: 100%;
+  background-color: #FFC107;
+  border-radius: 3px;
+}
+
+.task-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.balance-box {
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.balance {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.withdraw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.withdraw-form input, .withdraw-form select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.withdraw-button {
+  padding: 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Sticky Navigation */
+.sticky-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  height: 60px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  color: #2196F3;
+}
+
+.nav-item i {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .main-content {
+      padding: 8px;
+      padding-top: 3px;
+  }
+
+  .referal-link input {
+      padding: 10px;
+      font-size: 12px;
+  }
+
+  .referal-link button {
+      padding: 0 10px;
+      font-size: 12px;
+  }
+
+  .friend-info h4 {
+      font-size: 12px;
+  }
+
+  .friend-info p {
+      font-size: 10px;
+  }
+
+  .social-task-info h3 {
+      font-size: 14px;
+  }
+
+  .social-task-info p {
+      font-size: 10px;
+  }
+
+  .task-bonus-info h3 {
+      font-size: 14px;
+  }
+
+  .task-bonus-info p {
+      font-size: 12px;
+  }
+
+  .withdraw-form input, .withdraw-form select {
+      padding: 10px;
+      font-size: 12px;
+  }
+
+  .withdraw-button {
+      padding: 12px;
+      font-size: 14px;
+  }
+}
+
+/* Aylanuvchi animatsiya uchun CSS */
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.spinner-circle {
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgba(0, 123, 255, 0.2);
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-container p {
+  color: #666;
+  font-size: 16px;
+  margin-top: 10px;
+}
