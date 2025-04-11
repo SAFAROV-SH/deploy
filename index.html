@@ -23,6 +23,8 @@ let mybalance;
 fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
   .then(response => response.json())
   .then(data => {
+    console.log(data)
+    console.log(data.status)
     if (data.status == false) {
       // Telegram Web App-da botga yuborish va mini app-ni yopish
       tg.close();  // Mini appni yopish
