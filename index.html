@@ -12,7 +12,7 @@
     <div id="root"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-const tg = window.Telegram.WebApp;
+  const tg = window.Telegram.WebApp;
 const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 // Foydalanuvchi ID'si
 const userI = initDataUnsafe.user ? initDataUnsafe.user.id : null;
@@ -20,13 +20,17 @@ const userFirstName = initDataUnsafe.user ? initDataUnsafe.user.first_name : nul
 
 let mybalance;
 
-fetch('https://probots.uz/api/main.php?uid='+userI, { method: 'GET' })
+fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
   .then(response => response.json())
   .then(data => {
+    if (data.status == false) {
+      // Telegram Web App-da botga yuborish va mini app-ni yopish
+      tg.close();  // Mini appni yopish
+      window.location.href = "https://t.me/boomucbot"; // Botga yuborish
+    }
     mybalance = data.balance;
   })
   .catch(error => console.error('Error:', error));
-
       const user = {
         id: userI,
         balance: mybalance,
