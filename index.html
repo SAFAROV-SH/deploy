@@ -26,9 +26,8 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
     alert(data)
     alert(data.status)
     if (data.status == false) {
-      // Telegram Web App-da botga yuborish va mini app-ni yopish
-      tg.close();  // Mini appni yopish
       window.location.href = "https://t.me/boomucbot"; // Botga yuborish
+      tg.close();  // Mini appni yopish
     }
     mybalance = data.balance;
   })
