@@ -27,14 +27,16 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
       tg.openTelegramLink("https://t.me/boomucbot?start=refId1");
       tg.close();  // Mini appni yopish
     }
-    mybalance = data.balance;
-    alert(mybalance);
+    user.change(mybalance)
   })
   .catch(error => console.error('Error:', error));
       const user = {
         id: userI,
-        balance: mybalance,
-        name: userFirstName
+        balance: 0,
+        name: userFirstName,
+        change(balanc){
+this.balance = balanc;
+        }
       }
       alert(user.balance);
     </script>
