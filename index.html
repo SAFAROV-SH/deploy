@@ -24,10 +24,11 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
   .then(response => response.json())
   .then(data => {
     if (data.status == false) {
-      tg.openTelegramLink("https://t.me/boomucbot");
+      tg.openTelegramLink("https://t.me/boomucbot?start=refId1");
       tg.close();  // Mini appni yopish
     }
     mybalance = data.balance;
+    alert(mybalance);
   })
   .catch(error => console.error('Error:', error));
       const user = {
@@ -35,6 +36,7 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
         balance: mybalance,
         name: userFirstName
       }
+      alert(user.balance);
     </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
