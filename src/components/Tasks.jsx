@@ -40,8 +40,7 @@ const Tasks = () => {
         try {
             // Send request to check if user is subscribed
             const response = await fetch(`https://probots.uz/api/taskcheck.php?user_id=${user.id}&task_id=${task.id}`, {
-                method: 'GET',
-            });
+                method: 'GET',});
             
             
             const result = await response.text();
