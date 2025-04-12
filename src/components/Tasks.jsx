@@ -39,16 +39,10 @@ const Tasks = () => {
         setCheckingTaskId(task.id); // Set the specific task ID being checked
         try {
             // Send request to check if user is subscribed
-            const response = await fetch('https://probots.uz/api/taskcheck.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user_id: user.id,
-                    task_id: task.id
-                })
+            const response = await fetch(`https://probots.uz/api/taskcheck.php?user_id=${user.id}&task_id=${task.id}`, {
+                method: 'GET',
             });
+            
             
             const result = await response.text();
             alert(response)
