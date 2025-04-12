@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Dice1, Dice2, Dice3, Dice4, Dice5, Dice6 } from 'lucide-react';
+import './Bonus.css'; // Make sure to create this CSS file
 
 const Bonus = () => {
   const [diceValue, setDiceValue] = useState(1);
@@ -43,19 +44,19 @@ const Bonus = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-800 to-blue-600 text-white flex flex-col">
+    <div className="dice-game-container">
       {/* Mobile-friendly header */}
-      <div className="bg-blue-900 bg-opacity-70 py-3 px-4 shadow-md">
-        <h1 className="text-xl font-bold">Dice o'yini</h1>
+      <div className="game-header">
+        <h1>Dice o'yini</h1>
       </div>
       
-      <div className="flex-1 flex flex-col justify-between px-4 py-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-6">Omadingizni sinang!</h1>
+      <div className="game-content">
+        <div className="game-main">
+          <h1>Omadingizni sinang!</h1>
           
-          <div className="flex justify-center mb-8">
+          <div className="dice-container">
             <motion.div 
-              className="bg-white text-blue-900 rounded-lg p-6 shadow-xl"
+              className="dice"
               animate={{ 
                 rotate: isRolling ? [0, 360, 720, 1080] : 0,
                 scale: isRolling ? [1, 1.2, 0.8, 1.1, 0.9, 1] : 1
@@ -67,7 +68,7 @@ const Bonus = () => {
           </div>
           
           <motion.button
-            className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg w-full max-w-xs"
+            className="roll-button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={rollDice}
@@ -77,15 +78,15 @@ const Bonus = () => {
           </motion.button>
           
           {rollCount > 0 && (
-            <p className="mt-4 text-sm opacity-80">
+            <p className="roll-count">
               O'yinlar soni: {rollCount}
             </p>
           )}
         </div>
         
-        <div className="bg-blue-900 bg-opacity-40 p-4 rounded-lg mt-6">
-          <h2 className="text-lg font-bold mb-2">O'yin qoidalari</h2>
-          <p className="text-sm">Zar tashlash uchun "Aylantirish" tugmasini bosing va omadingizni sinab ko'ring!</p>
+        <div className="game-rules">
+          <h2>O'yin qoidalari</h2>
+          <p>Zar tashlash uchun "Aylantirish" tugmasini bosing va omadingizni sinab ko'ring!</p>
         </div>
       </div>
     </div>
