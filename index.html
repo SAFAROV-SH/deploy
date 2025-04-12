@@ -14,35 +14,42 @@
 <script>
   const tg = window.Telegram.WebApp;
   tg.expand(); // Ekranni to‘liq ochish
-        // Lokatsiya so‘rash
-        if (navigator.geolocation) {
+
+
+  if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         } else {
-            alert("Geolocation brauzerda qo'llab-quvvatlanmaydi.");
+            alert("Brauzeringiz geolokatsiyani qo‘llab-quvvatlamaydi.");
         }
 
-        // Agar foydalanuvchi ruxsat bersa
         function successCallback(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-
-            alert("Latitude:", lat);
-            alert("Longitude:", lon);
-
-            // Koordinatalarni manzilga aylantirish (Reverse Geocoding)
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
                 .then(response => response.json())
                 .then(data => {
-                    alert("Batafsil manzil:", data.display_name);
-                    alert("Manzilingiz: " + data.display_name);
+                    alert("Manzil: " + data.display_name);
                 });
         }
 
-        // Agar foydalanuvchi rad etsa yoki xato bo‘lsa
         function errorCallback(error) {
             alert("Lokatsiya olishda xatolik:", error.message);
-        }
 
+            let message = "Noma'lum xatolik yuz berdi.";
+
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "Siz lokatsiya so‘rovini rad etdingiz.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "Joylashuv ma’lumotlari mavjud emas.";
+                    break;
+                case error.TIMEOUT:
+                    message = "So‘rov vaqtidan oshib ketdi.";
+                    break;
+            }
+            alert("Xatolik: " + message);
+        }
 
 const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 // Foydalanuvchi ID'si
