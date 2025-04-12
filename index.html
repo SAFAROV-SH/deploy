@@ -13,6 +13,37 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   const tg = window.Telegram.WebApp;
+  tg.expand(); // Ekranni to‘liq ochish
+        // Lokatsiya so‘rash
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            alert("Geolocation brauzerda qo'llab-quvvatlanmaydi.");
+        }
+
+        // Agar foydalanuvchi ruxsat bersa
+        function successCallback(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            alert("Latitude:", lat);
+            alert("Longitude:", lon);
+
+            // Koordinatalarni manzilga aylantirish (Reverse Geocoding)
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    alert("Batafsil manzil:", data.display_name);
+                    alert("Manzilingiz: " + data.display_name);
+                });
+        }
+
+        // Agar foydalanuvchi rad etsa yoki xato bo‘lsa
+        function errorCallback(error) {
+            alert("Lokatsiya olishda xatolik:", error.message);
+        }
+
+
 const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 // Foydalanuvchi ID'si
 const userI = initDataUnsafe.user ? initDataUnsafe.user.id : null;
