@@ -45,23 +45,20 @@ const Tasks = () => {
             
             
             const result = await response.text();
-            alert(response)
-            alert(result)
             if (result.trim() === 'ok') {
                 // If subscribed, reload tasks
                 await fetchTasks();
             } else if (result.trim() === 'no') {
                 // If not subscribed, redirect to the task URL
                 if (task.url) {
-                    // window.open(task.url, '_blank');
+                    window.open(task.url, '_blank');
                 }
             }
         } catch (err) {
             console.error('Task tekshirishda xatolik:', err);
-            alert(err)
             // Still open URL on error for better UX
             if (task.url) {
-                // window.open(task.url, '_blank');
+                window.open(task.url, '_blank');
             }
         } finally {
             setCheckingTaskId(null); // Reset checking state
