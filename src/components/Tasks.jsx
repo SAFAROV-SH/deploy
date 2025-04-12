@@ -49,20 +49,21 @@ const Tasks = () => {
                     task_id: task.id
                 })
             });
-            alert(response)
+            
             if (!response.ok) {
                 throw new Error('Tekshirishda xatolik yuz berdi');
             }
             
             const result = await response.text();
-            
+            alert(response)
+            alert(result)
             if (result.trim() === 'ok') {
                 // If subscribed, reload tasks
                 await fetchTasks();
             } else if (result.trim() === 'no') {
                 // If not subscribed, redirect to the task URL
                 if (task.url) {
-                    window.open(task.url, '_blank');
+                    // window.open(task.url, '_blank');
                 }
             }
         } catch (err) {
