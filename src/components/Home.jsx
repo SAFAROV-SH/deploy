@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import '../css/Bonus.css'; // Assuming this file exists for other styling
-import Header from './Header';
 
 const Bonus = () => {
   const [diceValue, setDiceValue] = useState(1);
@@ -87,25 +85,22 @@ const Bonus = () => {
 
   return (
     <div className="dice-game-container">
-      <Header />
+      <div className="game-header">
+        <h1 className="app-title">Dice Game</h1>
+      </div>
       
       <div className="dice-game-content">
-        <h1 className="game-title">Random Dice Game</h1>
+        <h2 className="game-title">Random Dice Game</h2>
         
-        <div className="dice-wrapper">
-          <div 
-            className="dice"
-            style={{
-              transform: `rotate(${rotationDeg}deg)`,
-              transition: isRolling ? 'transform 2s cubic-bezier(0.18, 0.89, 0.32, 1.28)' : 'none'
-            }}
-          >
-            <div className="dice-face">
-              <div className="dots-container">
-                {renderDots()}
-              </div>
-            </div>
-          </div>
+        {/* Removed the extra wrapper div around dice */}
+        <div 
+          className="dice"
+          style={{
+            transform: `rotate(${rotationDeg}deg)`,
+            transition: isRolling ? 'transform 2s cubic-bezier(0.18, 0.89, 0.32, 1.28)' : 'none'
+          }}
+        >
+          {renderDots()}
         </div>
         
         <button
@@ -120,67 +115,65 @@ const Bonus = () => {
       <style jsx>{`
         /* Main container */
         .dice-game-container {
-          background: linear-gradient(135deg, #8a2be2, #4169e1);
+          background: #ffffff;
           min-height: 100vh;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           padding: 20px;
           font-family: 'Arial', sans-serif;
+        }
+        
+        /* Header styling */
+        .game-header {
+          width: 100%;
+          padding: 15px 0;
+          margin-bottom: 30px;
+          text-align: center;
+          background-color: #f0f0f0;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-title {
+          margin: 0;
+          color: #333;
+          font-size: 1.8rem;
         }
         
         /* Content wrapper */
         .dice-game-content {
           width: 100%;
           max-width: 500px;
-          margin: 0 auto;
+          margin: 20px auto;
           text-align: center;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
         
         /* Game title */
         .game-title {
-          font-size: 2.2rem;
+          font-size: 2rem;
           font-weight: bold;
           margin-bottom: 40px;
-          color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          color: #333;
         }
         
-        /* Dice wrapper */
-        .dice-wrapper {
-          position: relative;
-          margin-bottom: 60px;
-          display: flex;
-          justify-content: center;
-        }
-        
-        /* Dice styling */
+        /* Dice styling - simplified, removed extra containers */
         .dice {
-          display: inline-block;
-          perspective: 1000px;
-        }
-        
-        .dice-face {
-          background-color: white;
+          background-color: #e74c3c;
           border-radius: 16px;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 
-                      inset 0 -8px 0 rgba(0, 0, 0, 0.1),
-                      inset 0 8px 0 rgba(255, 255, 255, 0.8);
-          padding: 20px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
           width: 120px;
           height: 120px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: inline-block;
           position: relative;
-        }
-        
-        /* Dots container */
-        .dots-container {
-          position: relative;
-          width: 100%;
-          height: 100%;
+          margin-bottom: 60px;
+          perspective: 1000px;
         }
         
         /* Individual dot styling */
@@ -189,8 +182,8 @@ const Bonus = () => {
           width: 16px;
           height: 16px;
           border-radius: 50%;
-          background-color: #333;
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+          background-color: white;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         /* Dot positions */
@@ -239,17 +232,18 @@ const Bonus = () => {
           font-size: 1.2rem;
           font-weight: bold;
           color: white;
-          background: linear-gradient(to right, #f7b733, #fc4a1a);
+          background: #3498db;
           border: none;
           cursor: pointer;
-          box-shadow: 0 4px 12px rgba(252, 74, 26, 0.4);
+          box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
           transition: all 0.3s ease;
           outline: none;
         }
         
         .roll-button:hover:not(.rolling) {
           transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(252, 74, 26, 0.5);
+          box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
+          background: #2980b9;
         }
         
         .roll-button:active:not(.rolling) {
@@ -257,7 +251,7 @@ const Bonus = () => {
         }
         
         .roll-button.rolling {
-          background: #999;
+          background: #95a5a6;
           cursor: not-allowed;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
           color: #ddd;
@@ -265,15 +259,18 @@ const Bonus = () => {
         
         /* Mobile responsiveness */
         @media screen and (max-width: 600px) {
+          .app-title {
+            font-size: 1.6rem;
+          }
+          
           .game-title {
             font-size: 1.8rem;
             margin-bottom: 30px;
           }
           
-          .dice-face {
+          .dice {
             width: 100px;
             height: 100px;
-            padding: 15px;
           }
           
           .dot {
@@ -288,15 +285,18 @@ const Bonus = () => {
         }
         
         @media screen and (max-width: 400px) {
+          .app-title {
+            font-size: 1.4rem;
+          }
+          
           .game-title {
             font-size: 1.6rem;
             margin-bottom: 20px;
           }
           
-          .dice-face {
+          .dice {
             width: 90px;
             height: 90px;
-            padding: 12px;
           }
           
           .dot {
