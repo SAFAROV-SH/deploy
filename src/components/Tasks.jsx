@@ -68,6 +68,7 @@ const Tasks = () => {
             }
         } catch (err) {
             console.error('Task tekshirishda xatolik:', err);
+            alert(err)
             // Still open URL on error for better UX
             if (task.url) {
                 // window.open(task.url, '_blank');
