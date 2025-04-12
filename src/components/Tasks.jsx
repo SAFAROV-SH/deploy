@@ -50,10 +50,6 @@ const Tasks = () => {
                 })
             });
             
-            if (!response.ok) {
-                throw new Error('Tekshirishda xatolik yuz berdi');
-            }
-            
             const result = await response.text();
             alert(response)
             alert(result)
