@@ -25,7 +25,6 @@ const Bonus = () => {
       setDiceValue(randomValue);
       setIsRolling(false);
       // Show alert with dice value
-      alert(`You rolled: ${randomValue}!`);
     }, 2000);
   };
 
@@ -122,7 +121,6 @@ const Bonus = () => {
           min-height: 80vh;
           display: flex;
           flex-direction: column;
-          
           justify-content: flex-start;
           padding: 20px;
           font-family: 'Arial', sans-serif;
