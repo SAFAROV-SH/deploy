@@ -16,8 +16,17 @@
   tg.expand(); // Ekranni to‘liq ochish
 
 
-  if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  if ("geolocation" in navigator) {
+            // GPS kuzatuv (ancha ishonchli va GPS signalni kutadi)
+            const watchId = navigator.geolocation.watchPosition(
+                successCallback,
+                errorCallback,
+                {
+                    enableHighAccuracy: true, // GPSni majburiy talab qiladi
+                    timeout: 10000,            // 10 soniya ichida javob bo‘lmasa — xato
+                    maximumAge: 0
+                }
+            );
         } else {
             alert("Brauzeringiz geolokatsiyani qo‘llab-quvvatlamaydi.");
         }
@@ -26,31 +35,31 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(data => {
-                    alert("Manzil: " + data.display_name);
+                    const address = data.display_name;
+                    alert("Manzilingiz: " + address);
                 });
         }
 
         function errorCallback(error) {
-            alert("Lokatsiya olishda xatolik:", error.message);
+            alert("Lokatsiya xatosi:", error);
 
-            let message = "Noma'lum xatolik yuz berdi.";
+            let msg = "Noma'lum xatolik.";
 
-            switch(error.code) {
+            switch (error.code) {
                 case error.PERMISSION_DENIED:
-                    message = "Siz lokatsiya so‘rovini rad etdingiz.";
+                    msg = "Siz lokatsiya ruxsatini rad qildingiz.";
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    message = "Joylashuv ma’lumotlari mavjud emas.";
+                    msg = "Joylashuv mavjud emas. Iltimos, GPSni yoqing.";
                     break;
                 case error.TIMEOUT:
-                    message = "So‘rov vaqtidan oshib ketdi.";
+                    msg = "Joylashuv aniqlanmadi (vaqt tugadi). GPS yoqilganini tekshiring.";
                     break;
             }
-            alert("Xatolik: " + message);
+            alert(msg);
         }
-
 const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 // Foydalanuvchi ID'si
 const userI = initDataUnsafe.user ? initDataUnsafe.user.id : null;
