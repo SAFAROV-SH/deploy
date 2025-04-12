@@ -49,7 +49,7 @@ const Tasks = () => {
                     task_id: task.id
                 })
             });
-            
+            alert(response)
             if (!response.ok) {
                 throw new Error('Tekshirishda xatolik yuz berdi');
             }
