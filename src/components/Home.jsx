@@ -122,7 +122,7 @@ const Bonus = () => {
           min-height: 80vh;
           display: flex;
           flex-direction: column;
-          align-items: center;
+          
           justify-content: flex-start;
           padding: 20px;
           font-family: 'Arial', sans-serif;
