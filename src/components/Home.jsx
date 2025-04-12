@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from './Header';
 
 const Bonus = () => {
   const [diceValue, setDiceValue] = useState(1);
@@ -84,6 +85,8 @@ const Bonus = () => {
   };
 
   return (
+    <>
+    <Header />
     <div className="dice-game-container">
       <div className="game-header">
         <h1 className="app-title">Dice Game</h1>
@@ -116,7 +119,7 @@ const Bonus = () => {
         /* Main container */
         .dice-game-container {
           background: #ffffff;
-          min-height: 100vh;
+          min-height: 80vh;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -311,6 +314,7 @@ const Bonus = () => {
         }
       `}</style>
     </div>
+    </>
   );
 };
 
