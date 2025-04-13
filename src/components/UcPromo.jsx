@@ -1,0 +1,92 @@
+import React from 'react';
+
+const UcPromo = () => {
+  // Paketlar ma'lumotlari
+  const packages = [
+    { id: 1, uc: 60, price: '12 900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 2, uc: 325, price: '25,900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 3, uc: 660, price: '37,900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 4, uc: 1800, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 4, uc: 3850, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 4, uc: 8100, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
+  ];
+
+  // Promokodni tasdiqlash funksiyasi
+  const handleRedeem = (e) => {
+    e.preventDefault();
+    const promoCode = e.target.promoCode.value;
+    alert(`Promokod tasdiqlandi: ${promoCode}`);
+    e.target.reset();
+  };
+
+  return (
+    <div className="bg-gray-50 min-h-screen py-8 px-4">
+      <div className="max-w-md mx-auto">
+        {/* Sarlavha */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">PUBG UC Do'koni</h1>
+          <p className="text-gray-600 mt-2">Promokodlar va UC paketlarini sotib oling</p>
+        </div>
+
+        {/* Paketlar ro'yxati */}
+        <div className="space-y-6 mb-8">
+          {packages.map((pkg) => (
+            <div 
+              key={pkg.id} 
+              className={`relative bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${pkg.popular ? 'border-2 border-red-400' : ''}`}
+            >
+              {pkg.popular && (
+                <div className="absolute -top-3 left-4 z-10">
+                  <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                    Mashhur
+                  </span>
+                </div>
+              )}
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-2xl font-bold text-gray-800">{pkg.uc} UC</h3>
+                  <span className="text-lg font-semibold text-gray-700">{pkg.price} So'm</span>
+                </div>
+                <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+                  <span>{pkg.uc} UC li Redeem kodi arzon narxda</span>
+                </div>
+                <button 
+                  className={`w-full font-bold py-3 px-4 rounded-lg transition duration-200 ${pkg.popular ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+                >
+                  Sotib olish
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Promokod kiritish formasi */}
+        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">Promokodni kiriting</h3>
+          <form onSubmit={handleRedeem} className="flex">
+            <input
+              type="text"
+              name="promoCode"
+              placeholder="Promokodni kiriting"
+              className="flex-grow border border-gray-300 rounded-l-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <button 
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-r-lg transition duration-200"
+            >
+              Tasdiqlash
+            </button>
+          </form>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center text-gray-500 text-sm">
+          <p>© {new Date().getFullYear()} PUBG UC Do'koni. Barcha huquqlar himoyalangan.</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UcPromo;

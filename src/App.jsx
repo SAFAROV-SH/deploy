@@ -7,6 +7,7 @@ import Deposit from './components/Deposit';
 import Navbar from './components/Navbar';
 import UcShop from './components/Ucshop';
 import UcMain from './components/UcMain';
+import UcPromo from './components/UcPromo';
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +29,8 @@ const App = () => {
         return <UcMain />;
         case 'ucshop_id':
         return <UcShop />;
+        case 'ucshop_pr':
+        return <UcPromo />;
       default:
         return <Home />;
     }

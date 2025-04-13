@@ -19,6 +19,22 @@ export default function UcMain() {
     }
   };
 
+  const handlePromocodeClick = () => {
+    // Get current URL
+    const currentUrl = window.location.href;
+    
+    // Check if the URL contains ?route=ucshop
+    if (currentUrl.includes('?route=ucshop')) {
+      // Replace ucshop with ucshop_pr
+      const newUrl = currentUrl.replace('?route=ucshop', '?route=ucshop_pr');
+      window.location.href = newUrl;
+    } else {
+      // If the URL doesn't have the parameter, add it
+      const separator = currentUrl.includes('?') ? '&' : '?';
+      window.location.href = `${currentUrl}${separator}route=ucshop_pr`;
+    }
+  };
+
   return (
     <>
     <Header />
@@ -54,8 +70,11 @@ export default function UcMain() {
             </div>
           </div>
           
-          {/* Promocode Option */}
-          <div className="bg-blue-50 rounded-xl p-4 flex items-center cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 active:scale-95 shadow-md">
+          {/* Promocode Option - with click handler */}
+          <div 
+            className="bg-blue-50 rounded-xl p-4 flex items-center cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 active:scale-95 shadow-md"
+            onClick={handlePromocodeClick}
+          >
             <div className="bg-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
               <Gift size={24} />
             </div>
