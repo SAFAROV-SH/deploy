@@ -16,50 +16,6 @@
   tg.expand(); // Ekranni to‘liq ochish
 
 
-  if ("geolocation" in navigator) {
-            // GPS kuzatuv (ancha ishonchli va GPS signalni kutadi)
-            const watchId = navigator.geolocation.watchPosition(
-                successCallback,
-                errorCallback,
-                {
-                    enableHighAccuracy: true, // GPSni majburiy talab qiladi
-                    timeout: 10000,            // 10 soniya ichida javob bo‘lmasa — xato
-                    maximumAge: 0
-                }
-            );
-        } else {
-            alert("Brauzeringiz geolokatsiyani qo‘llab-quvvatlamaydi.");
-        }
-
-        function successCallback(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                .then(res => res.json())
-                .then(data => {
-                    const address = data.display_name;
-                    alert("Manzilingiz: " + address);
-                });
-        }
-
-        function errorCallback(error) {
-            alert("Lokatsiya xatosi:", error);
-
-            let msg = "Noma'lum xatolik.";
-
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    msg = "Siz lokatsiya ruxsatini rad qildingiz.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    msg = "Joylashuv mavjud emas. Iltimos, GPSni yoqing.";
-                    break;
-                case error.TIMEOUT:
-                    msg = "Joylashuv aniqlanmadi (vaqt tugadi). GPS yoqilganini tekshiring.";
-                    break;
-            }
-            alert(msg);
-        }
 const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
 // Foydalanuvchi ID'si
 const userI = initDataUnsafe.user ? initDataUnsafe.user.id : null;
