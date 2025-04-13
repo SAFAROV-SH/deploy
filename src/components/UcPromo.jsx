@@ -3,13 +3,18 @@ import React from 'react';
 const UcPromo = () => {
   // Paketlar ma'lumotlari
   const packages = [
-    { id: 1, uc: 60, price: '12 900', originalPrice: '0', bonus: '0 UC', popular: false },
-    { id: 2, uc: 325, price: '25,900', originalPrice: '0', bonus: '0 UC', popular: false },
-    { id: 3, uc: 660, price: '37,900', originalPrice: '0', bonus: '0 UC', popular: false },
-    { id: 4, uc: 1800, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
-    { id: 4, uc: 3850, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
-    { id: 4, uc: 8100, price: '57,900', originalPrice: '0', bonus: '0 UC', popular: false },
+    { id: 1, uc: 60, price: 13000, popular: false },
+    { id: 2, uc: 325, price: 58000, popular: false },
+    { id: 3, uc: 660, price: 115000, popular: false },
+    { id: 4, uc: 1800, price: 285000, popular: false },
+    { id: 5, uc: 3850, price: 580000, popular: false },
+    { id: 6, uc: 8100, price: 1130000, popular: false },
   ];
+
+  // Raqamlarni formatlash funksiyasi
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('uz-UZ').format(price);
+  };
 
   // Promokodni tasdiqlash funksiyasi
   const handleRedeem = (e) => {
@@ -45,7 +50,7 @@ const UcPromo = () => {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-2xl font-bold text-gray-800">{pkg.uc} UC</h3>
-                  <span className="text-lg font-semibold text-gray-700">{pkg.price} So'm</span>
+                  <span className="text-lg font-semibold text-gray-700">{formatPrice(pkg.price)} So'm</span>
                 </div>
                 <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
                   <span>{pkg.uc} UC li Redeem kodi arzon narxda</span>
