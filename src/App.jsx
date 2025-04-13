@@ -6,6 +6,7 @@ import Tasks from './components/Tasks';
 import Deposit from './components/Deposit';
 import Navbar from './components/Navbar';
 import UcShop from './components/Ucshop';
+import UcMain from './components/UcMain';
 
 const App = () => {
   const location = useLocation();
@@ -24,6 +25,8 @@ const App = () => {
       case 'deposit':
         return <Deposit />;
       case 'ucshop':
+        return <UcMain />;
+        case 'ucshop_id':
         return <UcShop />;
       default:
         return <Home />;
