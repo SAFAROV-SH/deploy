@@ -65,25 +65,6 @@ const UcPromo = () => {
           ))}
         </div>
 
-        {/* Promokod kiritish formasi */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Promokodni kiriting</h3>
-          <form onSubmit={handleRedeem} className="flex">
-            <input
-              type="text"
-              name="promoCode"
-              placeholder="Promokodni kiriting"
-              className="flex-grow border border-gray-300 rounded-l-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <button 
-              type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-r-lg transition duration-200"
-            >
-              Tasdiqlash
-            </button>
-          </form>
-        </div>
 
         {/* Footer */}
         <div className="text-center text-gray-500 text-sm">
