@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Header from './Header';
 const UcPromo = () => {
   // Paketlar ma'lumotlari
   const packages = [
@@ -25,6 +25,8 @@ const UcPromo = () => {
   };
 
   return (
+    <>
+    <Header />
     <div className="bg-gray-50 min-h-screen py-8 px-4">
       <div className="max-w-md mx-auto">
         {/* Sarlavha */}
@@ -72,6 +74,7 @@ const UcPromo = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
