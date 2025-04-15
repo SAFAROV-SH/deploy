@@ -144,25 +144,47 @@ const Tasks = () => {
                             }}
                         >
                             <div className={`social-task-icon ${task.type}`}>
-                                <motion.i
-                                    className={task.icon}
-                                    animate={
-                                        task.type === 'telegram'
-                                            ? {
+                                {task.type === 'telegram' ? (
+                                    <motion.i
+                                        style={{
+                                            display: 'flex',
+                                            // Ikonka o'lchamini barqarorlashtirish
+                                            width: '1em',
+                                            height: '1em',
+                                            fontSize: 'inherit'
+                                        }}
+                                        className={task.icon}
+                                        animate={
+                                            !task.completed ? {
                                                 x: [0, 1, -1, 0],
                                                 y: [0, -1, 0],
                                                 rotate: [0, 5, -5, 0],
                                                 opacity: [1, 0.9, 1],
+                                            } : {
+                                                // Completed bo'lganda animatsiyasiz faqat ko'rsatish
+                                                scale: 1
                                             }
-                                            : {}
-                                    }
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        repeatType: "loop",
-                                        ease: "easeInOut",
-                                    }}
-                                ></motion.i>
+                                        }
+                                        transition={{
+                                            duration: 2,
+                                            repeat: !task.completed ? Infinity : 0,
+                                            repeatType: "loop",
+                                            ease: "easeInOut",
+                                        }}
+                                    ></motion.i>
+                                ) : (
+                                    // Boshqa tipdagi iconkalar uchun (scale animatsiyasini olib tashladik)
+                                    <i
+                                        style={{
+                                            display: 'flex',
+                                            // Ikonka o'lchamini barqarorlashtirish
+                                            width: '1em',
+                                            height: '1em',
+                                            fontSize: 'inherit'
+                                        }}
+                                        className={task.icon}
+                                    ></i>
+                                )}
                             </div>
                             <div className="social-task-info">
                                 <h3>{task.title}</h3>
