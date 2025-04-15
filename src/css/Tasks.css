@@ -116,3 +116,17 @@
       justify-content: center;
   }
 }
+/* Telegram ikonchasi uchun maxsus qoidalar */
+.social-task-icon.telegram {
+  width: 50px; /* Doimiy kenglik */
+  height: 50px; /* Doimiy balandlik */
+}
+
+.social-task-icon.telegram i {
+  font-size: 24px; /* Ikoncha o'lchamini moslashtirish */
+  width: 100%; /* Tasvirni kenglikka moslashtirish */
+  height: 100%; /* Tasvirni balandlikka moslashtirish */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
