@@ -42,7 +42,7 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
 this.balance = balanc;
         },
         balpl(sum){
-this.balance = this.balance + sum;
+this.balance = parseInt(this.balance)+parseInt(sum);
         }
       }
     </script>
