@@ -67,7 +67,6 @@ const UcPromo = () => {
           ))}
         </div>
 
-
         {/* Footer */}
         <div className="text-center text-gray-500 text-sm">
           <p>© {new Date().getFullYear()} PUBG UC Do'koni. Barcha huquqlar himoyalangan.</p>

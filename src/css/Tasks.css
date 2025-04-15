@@ -116,3 +116,27 @@
       justify-content: center;
   }
 }
+/* Umumiy ikoncha uchun */
+.social-task-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Ikoncha o'lchamini moslang */
+  height: 50px;
+  border: 2px solid green; /* Yashil border */
+  border-radius: 50%; /* Doira shakli */
+  overflow: hidden; /* Tasvirni cheklash */
+}
+
+/* Telefon ekranlari uchun */
+@media (max-width: 768px) {
+  .social-task-icon {
+      width: 40px; /* Telefon uchun kichikroq o'lcham */
+      height: 40px;
+      border-width: 1.5px; /* Borderni moslashtirish */
+  }
+
+  .social-task-icon i {
+      font-size: 18px; /* Ikoncha kattaligini moslashtirish */
+  }
+}
