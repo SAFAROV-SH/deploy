@@ -40,6 +40,9 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
         name: userFirstName,
         change(balanc){
 this.balance = balanc;
+        },
+        balpl(sum){
+this.balance = this.balance + sum;
         }
       }
     </script>

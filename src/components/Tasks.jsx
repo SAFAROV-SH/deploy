@@ -46,6 +46,7 @@ const Tasks = () => {
             const result = await response.text();
             if (result.trim() === 'ok') {
                 // If subscribed, reload tasks
+                balpl(task.bonus);
                 await fetchTasks();
             } else if (result.trim() === 'no') {
                 // If not subscribed, redirect to the task URL
