@@ -95,6 +95,17 @@ const Tasks = () => {
         );
     }
 
+    // Bir xil o'lchamda bo'lishi kerak bo'lgan icon container uslubi
+    const iconContainerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '40px',  // Aniq o'lcham beramiz
+        height: '40px', // Aniq o'lcham beramiz
+        minWidth: '40px', // Kichrayib ketmasligi uchun
+        fontSize: '1.2rem', // Icon o'lchamini barqarorlashtirish
+    };
+
     return (
         <>
             <Header />
@@ -143,16 +154,12 @@ const Tasks = () => {
                                 ease: "easeInOut",
                             }}
                         >
-                            <div className={`social-task-icon ${task.type}`}>
+                            <div 
+                                className={`social-task-icon ${task.type}`}
+                                style={iconContainerStyle}
+                            >
                                 {task.type === 'telegram' ? (
                                     <motion.i
-                                        style={{
-                                            display: 'flex',
-                                            // Ikonka o'lchamini barqarorlashtirish
-                                            width: '1em',
-                                            height: '1em',
-                                            fontSize: 'inherit'
-                                        }}
                                         className={task.icon}
                                         animate={
                                             !task.completed ? {
@@ -160,9 +167,10 @@ const Tasks = () => {
                                                 y: [0, -1, 0],
                                                 rotate: [0, 5, -5, 0],
                                                 opacity: [1, 0.9, 1],
+                                                // Scale animatsiyasini olib tashladik
+                                                // bu o'lcham o'zgarishini oldini oladi
                                             } : {
-                                                // Completed bo'lganda animatsiyasiz faqat ko'rsatish
-                                                scale: 1
+                                                // Scaled size qo'shmaslik kerak
                                             }
                                         }
                                         transition={{
@@ -173,17 +181,7 @@ const Tasks = () => {
                                         }}
                                     ></motion.i>
                                 ) : (
-                                    // Boshqa tipdagi iconkalar uchun (scale animatsiyasini olib tashladik)
-                                    <i
-                                        style={{
-                                            display: 'flex',
-                                            // Ikonka o'lchamini barqarorlashtirish
-                                            width: '1em',
-                                            height: '1em',
-                                            fontSize: 'inherit'
-                                        }}
-                                        className={task.icon}
-                                    ></i>
+                                    <i className={task.icon}></i>
                                 )}
                             </div>
                             <div className="social-task-info">
