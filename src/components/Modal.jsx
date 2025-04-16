@@ -1,0 +1,116 @@
+// Modal.jsx
+import React from 'react';
+
+const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
+  if (!isOpen || !selectedPackage) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 pb-10">
+      <div 
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 ease-in-out mb-10"
+        style={{ 
+          backdropFilter: 'blur(8px)',
+          animation: 'modalFadeIn 0.3s ease-out' 
+        }}
+      >
+        {/* Modal Header */}
+        <div className="border-b border-gray-200 p-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-bold text-gray-800">UC Sotib olish</h2>
+            <button 
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Modal Content */}
+        <div className="p-4">
+          {/* UC ma'lumotlari */}
+          <div className="flex items-center justify-between mb-4 bg-blue-50 p-3 rounded-xl">
+            <div className="flex items-center">
+              <div className="bg-blue-500 rounded-full p-2 mr-3">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <span className="text-xs text-gray-500">Paket</span>
+                <h3 className="text-base font-bold text-gray-800">{selectedPackage.uc} UC</h3>
+              </div>
+            </div>
+            <div className="text-right">
+              <span className="text-xs text-gray-500">Narxi</span>
+              <p className="text-base font-bold text-gray-800">{formatPrice(selectedPackage.price)} So'm</p>
+            </div>
+          </div>
+          
+          {user && user.balance >= selectedPackage.price ? (
+            <>
+              <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-4">
+                <div className="flex items-center mb-1">
+                  <svg className="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span className="font-medium text-sm text-green-800">Promokodiingiz tayyor!</span>
+                </div>
+                <div className="bg-white border border-dashed border-green-300 rounded-lg p-2 text-center">
+                  <span className="font-bold text-base tracking-wide text-gray-800">AFAFHJST7</span>
+                </div>
+                <p className="text-xs text-green-600 mt-1 text-center">Bu kodni PUBG Mobile o'yinida ishlatishingiz mumkin</p>
+              </div>
+              
+              <button
+                onClick={onClose}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200 flex items-center justify-center"
+              >
+                <span>Yopish</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4">
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 text-red-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span className="font-medium text-sm text-red-800">Hisobingizda mablag' yetarli emas</span>
+                </div>
+                <p className="mt-1 text-xs text-red-600">Iltimos, hisobingizni to'ldiring va qayta urinib ko'ring.</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={onClose}
+                  className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-xl transition-colors duration-200 text-sm"
+                >
+                  Bekor qilish
+                </button>
+                <button
+                  onClick={onClose}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200 text-sm"
+                >
+                  Hisobni to'ldirish
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* CSS Animation */}
+      <style jsx>{`
+        @keyframes modalFadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Modal;
