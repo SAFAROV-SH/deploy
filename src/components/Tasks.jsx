@@ -231,6 +231,7 @@ const Tasks = () => {
                     </div>
                 </div>
             </div>
+            <br />
         </>
     );
 };

@@ -98,6 +98,7 @@ const UcShop = () => {
         item={selectedItem || {}}
         user={user} // To'liq user obyektini uzatamiz
       />
+      <br />
     </>
   );
 };

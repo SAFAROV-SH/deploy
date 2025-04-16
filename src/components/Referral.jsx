@@ -153,6 +153,7 @@ const Referral = () => {
         </div>
       )}
     </div>
+    <br />
     </>);
 };
 

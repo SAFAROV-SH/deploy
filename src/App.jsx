@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import Referral from './components/Referral';
@@ -13,32 +13,59 @@ const App = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const currentRoute = params.get('route') || 'home';
+  const contentRef = useRef(null);
+  
+  // Har safar route o'zgarganda scroll tepaga qaytaradi - kuchaytirilgan versiya
+  useEffect(() => {
+    // Scroll boshiga qaytarish usullarining kombinatsiyasi
+    if (contentRef.current) {
+      // Contentning scroll pozitsiyasini qaytarish
+      contentRef.current.scrollTop = 0;
+    }
+    
+    // Window scroll pozitsiyasini qaytarish
+    window.scrollTo(0, 0);
+    
+    // Qo'shimcha - timeout bilan qayta urinish
+    // ba'zan render jarayoni tugaganidan keyin scroll qilish kerak bo'ladi
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
+      
+      // document body va html uchun ham scroll qaytarish
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }, 50);
+    
+  }, [currentRoute]);
   
   // Function to render the appropriate component based on the route parameter
   const renderComponent = () => {
     switch(currentRoute) {
       case 'home':
-        return <Home />;
+        return <Home key="home" />;
       case 'referral':
-        return <Referral />;
+        return <Referral key="referral" />;
       case 'tasks':
-        return <Tasks />;
+        return <Tasks key="tasks" />;
       case 'deposit':
-        return <Deposit />;
+        return <Deposit key="deposit" />;
       case 'ucshop':
-        return <UcMain />;
-        case 'ucshop_id':
-        return <UcShop />;
-        case 'ucshop_pr':
-        return <UcPromo />;
+        return <UcMain key="ucmain" />;
+      case 'ucshop_id':
+        return <UcShop key="ucshop" />;
+      case 'ucshop_pr':
+        return <UcPromo key="ucpromo" />;
       default:
-        return <Home />;
+        return <Home key="default-home" />;
     }
   };
 
   return (
     <div className="mobile-app">
-      <div className="main-content">
+      <div className="main-content" ref={contentRef}>
         <Navbar />
         {renderComponent()}
       </div>
