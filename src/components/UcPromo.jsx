@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 
 const UcPromo = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Foydalanuvchi balansini simulyatsiya qilish
+  const [showModal, setShowModal] = useState(false);
+  // Original balansni eslash uchun state
+  const [originalBalance, setOriginalBalance] = useState(0);
+  
+  // Komponent yuklanganida joriy balansni saqlash
+  useEffect(() => {
+    if (typeof user !== 'undefined' && user && user.balance) {
+      setOriginalBalance(user.balance);
+    }
+  }, []);
 
   const packages = [
     { id: 1, uc: 60, price: 13000, popular: false },
@@ -19,6 +28,10 @@ const UcPromo = () => {
   };
 
   const handlePurchaseClick = (pkg) => {
+    // Modal ochilishidan oldin joriy balansni saqlash
+    if (typeof user !== 'undefined' && user && user.balance) {
+      setOriginalBalance(user.balance);
+    }
     setSelectedPackage(pkg);
     setShowModal(true);
   };
@@ -26,6 +39,23 @@ const UcPromo = () => {
   const closeModal = () => {
     setShowModal(false);
     setSelectedPackage(null);
+    // Agar balans o'zgargan bo'lsa, uni qayta tiklash
+    if (typeof user !== 'undefined' && user && user.balance !== originalBalance) {
+      user.balance = originalBalance;
+    }
+  };
+
+  // Haqiqiy sotib olish funksiyasi
+  const purchaseUC = () => {
+    if (typeof user !== 'undefined' && user && user.balance >= selectedPackage.price) {
+      // Balansdan pul yechish
+      user.balance = user.balance - selectedPackage.price;
+      // Balans o'zgarganini bildirish uchun Header komponentini yangilash kod
+      // Agar Header komponentida balans ko'rsatilsa, u yerda yuqoridagi o'zgarishni aks ettirish kerak
+      
+      closeModal();
+      alert(`${selectedPackage.uc} UC muvaffaqiyatli sotib olindi!`);
+    }
   };
 
   return (
@@ -37,6 +67,11 @@ const UcPromo = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">PUBG UC Do'koni</h1>
             <p className="text-gray-600 mt-2">Promokodlar va UC paketlarini sotib oling</p>
+            {typeof user !== 'undefined' && user && (
+              <p className="text-blue-600 font-semibold mt-1">
+                Sizning balansingiz: {formatPrice(user.balance)} So'm
+              </p>
+            )}
           </div>
 
           {/* Paketlar ro'yxati */}
@@ -80,11 +115,11 @@ const UcPromo = () => {
       </div>
 
       {/* Modal */}
-      {showModal && selectedPackage && (
+      {showModal && selectedPackage && typeof user !== 'undefined' && user && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Sotib olish</h2>
-            {user.balance >= selectedPackage.price ? (
+            {originalBalance >= selectedPackage.price ? (
               <>
                 <p className="text-gray-700 mb-4">
                   Siz {selectedPackage.uc} UC uchun <span className="font-semibold">{formatPrice(selectedPackage.price)} So'm</span> to'laysiz.
@@ -92,12 +127,20 @@ const UcPromo = () => {
                 <div className="bg-green-100 text-green-700 p-3 rounded-lg mb-4">
                   Promokod: <span className="font-bold">AFAFHJST7</span>
                 </div>
-                <button
-                  onClick={closeModal}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                >
-                  Yopish
-                </button>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={purchaseUC}
+                    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+                  >
+                    Tasdiqlash
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg"
+                  >
+                    Bekor qilish
+                  </button>
+                </div>
               </>
             ) : (
               <>
