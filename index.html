@@ -31,7 +31,7 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
       window.open("https://t.me/boomucbot?start=refId1", '_blank');
       tg.close();  // Mini appni yopish
     }
-    user.change(data.balance)
+    user.change(data.balance);
   })
   .catch(error => console.error('Error:', error));
       const user = {
