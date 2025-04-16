@@ -17,7 +17,7 @@ const UcPromo = () => {
 
   // Simulyatsiya qilingan foydalanuvchi
   const user = {
-    balance: 500000, // Bu joyda kerak bo'lgan foydalanuvchi balansini ko'rsating
+    balance: 500000,
   };
 
   const formatPrice = (price) => {
@@ -50,16 +50,18 @@ const UcPromo = () => {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`relative bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${pkg.popular ? 'border-2 border-red-400' : ''}`}
+                className={`relative bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                  pkg.popular ? 'border border-blue-300 bg-blue-50/30' : ''
+                }`}
               >
                 {pkg.popular && (
-                  <div className="absolute -top-3 left-4 z-10">
-                    <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                      Mashhur
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                    <span className="bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md" style={{marginTop: '10px'}}>
+                    ㅤㅤㅤㅤㅤ
                     </span>
                   </div>
                 )}
-                <div className="p-6">
+                <div className={`p-6 ${pkg.popular ? 'pt-8' : ''}`}>
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-2xl font-bold text-gray-800">{pkg.uc} UC</h3>
                     <span className="text-lg font-semibold text-gray-700">{formatPrice(pkg.price)} So'm</span>
@@ -69,11 +71,22 @@ const UcPromo = () => {
                   </div>
                   <button
                     onClick={() => handlePurchaseClick(pkg)}
-                    className={`w-full font-bold py-3 px-4 rounded-lg transition duration-200 ${pkg.popular ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+                    className={`w-full font-bold py-3 px-4 rounded-lg transition duration-200 ${
+                      pkg.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'
+                    } text-white`}
                   >
                     Sotib olish
                   </button>
                 </div>
+                
+                {/* Mashhur paket uchun ko'proq vizual elementlar */}
+                {pkg.popular && (
+                  <div className="absolute top-2 right-2">
+                    <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
               </div>
             ))}
           </div>
