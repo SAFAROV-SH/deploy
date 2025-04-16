@@ -16,9 +16,6 @@ const UcPromo = () => {
   ];
 
   // Simulyatsiya qilingan foydalanuvchi
-  const user = {
-    balance: 500000,
-  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('uz-UZ').format(price);
