@@ -18,7 +18,7 @@ const Bonus = () => {
     setRotationDeg(newRotation);
     
     // Generate random dice value between 1 and 6
-    const randomValue = Math.floor(Math.random() * 6) + 1;
+    const randomValue = Math.floor(Math.random() * 4) + 1;
     
     // After animation completes
     setTimeout(() => {
