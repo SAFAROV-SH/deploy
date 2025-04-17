@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
   const [promoCode, setPromoCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-  const promoCodeRef = useRef(null);
 
   // Promo kodni bazadan olish funksiyasi
   const fetchPromoCode = async () => {
@@ -12,6 +11,9 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     
     try {
       setLoading(true);
+      // Sinov uchun fetch qilmasdan to'g'ridan-to'g'ri promoCode o'rnatamiz
+      // Agar API ishlasa, fetch qismini yoqib qo'ying
+      /*
       const response = await fetch(`http://probots.uz/api/promo.php?user_id=${user.id}`);
       
       if (!response.ok) {
@@ -24,10 +26,17 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       } else {
         setPromoCode("Promo kod topilmadi");
       }
+      */
+      
+      // API o'rniga test ma'lumotlarini ishlatamiz
+      setTimeout(() => {
+        setPromoCode("aMbNtKgB2a2771T86d");
+        setLoading(false);
+      }, 500);
+      
     } catch (error) {
       console.error("Promo kodni yuklashda xatolik:", error);
       setPromoCode("Xatolik yuz berdi");
-    } finally {
       setLoading(false);
     }
   };
@@ -39,24 +48,40 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     }
   }, [isOpen, selectedPackage, user]);
 
-  // Nusxalash funksiyasi
+  // Nusxalash funksiyasi - modernroq usul
   const copyToClipboard = () => {
-    if (promoCodeRef.current) {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(promoCodeRef.current);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      
-      try {
-        document.execCommand('copy');
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000); // 2 soniyadan so'ng notification yo'qoladi
-      } catch (err) {
-        console.error('Nusxa olishda xatolik:', err);
+    if (!promoCode) return;
+    
+    try {
+      // Modern Navigator Clipboard API bilan urinib ko'ramiz
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promoCode)
+          .then(() => {
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 2000);
+          })
+          .catch(err => {
+            console.error('Nusxa olishda xatolik:', err);
+          });
+      } else {
+        // Eski usul
+        const textarea = document.createElement('textarea');
+        textarea.value = promoCode;
+        textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        
+        const successful = document.execCommand('copy');
+        if (successful) {
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 2000);
+        }
+        
+        document.body.removeChild(textarea);
       }
-      
-      selection.removeAllRanges();
+    } catch (err) {
+      console.error('Nusxa olishda xatolik:', err);
     }
   };
 
@@ -124,13 +149,11 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                 ) : (
                   <div className="relative">
                     <div 
-                      className="bg-white border border-dashed border-green-300 rounded-lg p-2 text-center overflow-x-auto whitespace-nowrap"
-                      onClick={copyToClipboard}
+                      className="bg-white border border-dashed border-green-300 rounded-lg p-2 text-center overflow-x-auto"
                     >
                       <div 
-                        ref={promoCodeRef}
-                        className="font-mono text-base tracking-wider text-gray-800 px-2 select-all overflow-visible"
-                        style={{ wordBreak: 'break-all', overflowWrap: 'break-word' }}
+                        className="font-mono text-base tracking-wider text-gray-800 px-2 select-all"
+                        style={{ wordBreak: 'break-all' }}
                       >
                         {promoCode || "aMbNtKgB2a2771T86d"}
                       </div>
