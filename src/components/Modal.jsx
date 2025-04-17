@@ -1,7 +1,65 @@
-// Modal.jsx
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
+  const [promoCode, setPromoCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const promoCodeRef = useRef(null);
+
+  // Promo kodni bazadan olish funksiyasi
+  const fetchPromoCode = async () => {
+    if (!user || !user.id || !selectedPackage) return;
+    
+    try {
+      setLoading(true);
+      const response = await fetch(`http://probots.uz/api/promo.php?user_id=${user.id}`);
+      
+      if (!response.ok) {
+        throw new Error('Promo kodni olishda xatolik yuz berdi');
+      }
+      
+      const data = await response.json();
+      if (data && data.promo_code) {
+        setPromoCode(data.promo_code);
+      } else {
+        setPromoCode("Promo kod topilmadi");
+      }
+    } catch (error) {
+      console.error("Promo kodni yuklashda xatolik:", error);
+      setPromoCode("Xatolik yuz berdi");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Modal ochilganda promo kodni yuklash
+  useEffect(() => {
+    if (isOpen && selectedPackage && user && user.balance >= selectedPackage.price) {
+      fetchPromoCode();
+    }
+  }, [isOpen, selectedPackage, user]);
+
+  // Nusxalash funksiyasi
+  const copyToClipboard = () => {
+    if (promoCodeRef.current) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(promoCodeRef.current);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      
+      try {
+        document.execCommand('copy');
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000); // 2 soniyadan so'ng notification yo'qoladi
+      } catch (err) {
+        console.error('Nusxa olishda xatolik:', err);
+      }
+      
+      selection.removeAllRanges();
+    }
+  };
+
   if (!isOpen || !selectedPackage) return null;
   
   return (
@@ -58,10 +116,38 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                   </svg>
                   <span className="font-medium text-sm text-green-800">Promokodiingiz tayyor!</span>
                 </div>
-                <div className="bg-white border border-dashed border-green-300 rounded-lg p-2 text-center">
-                  <span className="font-bold text-base tracking-wide text-gray-800">AFAFHJST7</span>
-                </div>
-                <p className="text-xs text-green-600 mt-1 text-center">Bu kodni PUBG Mobile o'yinida ishlatishingiz mumkin</p>
+                
+                {loading ? (
+                  <div className="flex justify-center py-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <div 
+                      className="bg-white border border-dashed border-green-300 rounded-lg p-2 text-center overflow-x-auto whitespace-nowrap"
+                      onClick={copyToClipboard}
+                    >
+                      <div 
+                        ref={promoCodeRef}
+                        className="font-mono text-base tracking-wider text-gray-800 px-2 select-all overflow-visible"
+                        style={{ wordBreak: 'break-all', overflowWrap: 'break-word' }}
+                      >
+                        {promoCode || "aMbNtKgB2a2771T86d"}
+                      </div>
+                    </div>
+                    
+                    <button 
+                      onClick={copyToClipboard}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-100 hover:bg-green-200 text-green-600 rounded-md px-2 py-1 text-xs font-medium transition-colors"
+                    >
+                      {copySuccess ? "Nusxalandi!" : "Nusxalash"}
+                    </button>
+                  </div>
+                )}
+                
+                <p className="text-xs text-green-600 mt-2 text-center">
+                  Bu kodni PUBG Mobile o'yinida ishlatishingiz mumkin
+                </p>
               </div>
               
               <button
