@@ -91,7 +91,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                   Bekor qilish
                 </button>
                 <button
-                  onClick={onClose}
+                  onClick={() => window.location.href = "/?route=deposit"}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200 text-sm"
                 >
                   Hisobni to'ldirish
