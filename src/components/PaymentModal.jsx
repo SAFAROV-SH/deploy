@@ -143,7 +143,7 @@ const PaymentModal = ({ isOpen, onClose, item, user }) => {
                   <div className="form-groupp">
                     <label htmlFor="pubgId">PUBG ID raqamingizni kiriting:</label>
                     <input
-                      type="number"
+                      type="text"
                       id="pubgId"
                       value={pubgId}
                       onChange={(e) => {
