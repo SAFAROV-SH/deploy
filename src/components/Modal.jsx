@@ -14,21 +14,17 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       setLoading(true);
       setError(null); // Xatolik xabarini tozalash
       
-      // Server URL manzili - http protokolidan ishonchli bo'lish uchun https ga o'zgartirdik
-      const apiUrl = `https://probots.uz/api/promo.php`;
+      // Server URL manzili - GET parametri bilan
+      const apiUrl = `https://probots.uz/api/promo.php?user_id=${user.id}`;
       
-      // POST metodidan foydalanish va JSON formatida ma'lumot yuborish
+      // CORS muammolarini hal qilish uchun parametrlar
       const fetchOptions = {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          user_id: user.id,
-          package_id: selectedPackage.id || selectedPackage.type // package_id ni ham yuboramiz
-        }),
-        credentials: 'include', // Cookie ma'lumotlarini yuborish (agar kerak bo'lsa)
+        // CORS muammolari uchun no-cors rejimini sinab ko'ring (lekin bu natijani o'qishni qiyinlashtiradi)
+        // mode: 'no-cors',
       };
       
       const response = await fetch(apiUrl, fetchOptions);
@@ -108,43 +104,35 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     fetchPromoCode();
   };
 
-  // Boshqa usul bilan sinab ko'rish - JSONP yoki proxy server orqali
-  const tryAlternativeFetch = async () => {
-    if (!user || !user.id || !selectedPackage) return;
-    
+  // Debug funksiyasi - serverdan qaytgan xatolarni ko'rish uchun
+  const debugFetch = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Proxy server orqali yoki to'g'ridan-to'g'ri so'rov yuborish
-      // Bu yerda so'rovni proxy-utils.js fayli orqali amalga oshirish mumkin
-      const proxyUrl = '/api/proxy-promo'; // Frontend serverida proxy endpoint yarating
+      // Oddiy URL bilan sinab ko'rish
+      const testUrl = 'https://probots.uz/api/promo.php';
       
-      const response = await fetch(proxyUrl, {
-        method: 'POST',
+      const response = await fetch(testUrl, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Accept': 'application/json',
         },
-        body: JSON.stringify({
-          user_id: user.id,
-          package_id: selectedPackage.id || selectedPackage.type
-        })
       });
       
-      if (!response.ok) {
-        throw new Error(`Server xatoligi: ${response.status}`);
-      }
+      const text = await response.text();
+      console.log("Server javobi (text):", text);
       
-      const data = await response.json();
-      
-      if (data && data.promo_code) {
-        setPromoCode(data.promo_code);
-      } else {
-        throw new Error('Server javobida promo_code topilmadi');
+      try {
+        const json = JSON.parse(text);
+        console.log("Server javobi (json):", json);
+        setError("Debug: Server javob berdi, console logini tekshiring");
+      } catch (e) {
+        setError(`Debug: Server javob berdi, lekin JSON emas: ${text.substring(0, 100)}...`);
       }
     } catch (error) {
-      console.error("Alternativ usulda yuklashda xatolik:", error);
-      setError(`Alternativ usulda ham xatolik: ${error.message}`);
+      console.error("Debug so'rovda xatolik:", error);
+      setError(`Debug xatoligi: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -222,10 +210,10 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                         Qayta urinish
                       </button>
                       <button 
-                        onClick={tryAlternativeFetch}
+                        onClick={debugFetch}
                         className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-1 rounded-md text-sm font-medium"
                       >
-                        Boshqa usul
+                        Tashxis
                       </button>
                     </div>
                   </div>
