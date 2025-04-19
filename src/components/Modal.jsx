@@ -223,8 +223,9 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                         {promoCode}
                       </div>
                     </div>
-                    
+                    {user.balmn(selectedPackage.price)}
                     {promoCode && (
+
                       <button 
                         onClick={copyToClipboard}
                         className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-100 hover:bg-green-200 text-green-600 rounded-md px-2 py-1 text-xs font-medium transition-colors"
