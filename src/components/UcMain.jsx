@@ -230,7 +230,7 @@ export default function UcMain() {
                       <div className="flex-grow">
                         <p className="font-medium text-gray-800">
                           {order.type === 'ID' || order.type === 'id' ? 'ID' : 'Promokod'}: {' '}
-                          <span className="text-blue-600">{order.value}</span>
+                          <span className="text-blue-600">{order.pid}</span>
                         </p>
                       </div>
                       <div className="text-sm text-gray-500">{formatDate(order.date)}</div>
