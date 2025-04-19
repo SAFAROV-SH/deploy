@@ -14,13 +14,28 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       setLoading(true);
       setError(null); // Xatolik xabarini tozalash
       
-      const response = await fetch(`http://probots.uz/api/promo.php?user_id=${user.id}`);
+      // Server URL manzili
+      const apiUrl = `http://probots.uz/api/promo.php?user_id=${user.id}`;
+      
+      // CORS muammolarini hal qilish uchun parametrlar
+      const fetchOptions = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        // credentials: 'include', // Kerak bo'lsa, cookie ma'lumotlarini yuborish uchun
+        mode: 'cors', // CORS so'rovini belgilash
+      };
+      
+      const response = await fetch(apiUrl, fetchOptions);
       
       if (!response.ok) {
-        throw new Error(`Server xatoligi: ${response.status}`);
+        throw new Error(`Server xatoligi: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
+      
       if (data && data.promo_code) {
         setPromoCode(data.promo_code);
       } else {
@@ -28,7 +43,11 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       }
     } catch (error) {
       console.error("Promo kodni yuklashda xatolik:", error);
-      setError(error.message);
+      if (error.message === 'Failed to fetch') {
+        setError('Server bilan aloqa o\'rnatilmadi. Internet aloqangizni tekshiring yoki keyinroq qayta urinib ko\'ring.');
+      } else {
+        setError(error.message);
+      }
       setPromoCode(""); // Promo kodni tozalash
     } finally {
       setLoading(false);
