@@ -11,9 +11,6 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     
     try {
       setLoading(true);
-      // Sinov uchun fetch qilmasdan to'g'ridan-to'g'ri promoCode o'rnatamiz
-      // Agar API ishlasa, fetch qismini yoqib qo'ying
-      /*
       const response = await fetch(`http://probots.uz/api/promo.php?user_id=${user.id}`);
       
       if (!response.ok) {
@@ -26,14 +23,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       } else {
         setPromoCode("Promo kod topilmadi");
       }
-      */
-      
-      // API o'rniga test ma'lumotlarini ishlatamiz
-      setTimeout(() => {
-        setPromoCode("aMbNtKgB2a2771T86d");
-        setLoading(false);
-      }, 500);
-      
+      setLoading(false);
     } catch (error) {
       console.error("Promo kodni yuklashda xatolik:", error);
       setPromoCode("Xatolik yuz berdi");
@@ -48,7 +38,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     }
   }, [isOpen, selectedPackage, user]);
 
-  // Nusxalash funksiyasi - modernroq usul
+  // Nusxalash funksiyasi
   const copyToClipboard = () => {
     if (!promoCode) return;
     
@@ -123,7 +113,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
               </div>
               <div>
                 <span className="text-xs text-gray-500">Paket</span>
-                <h3 className="text-base font-bold text-gray-800">{selectedPackage.uc} UC</h3>
+                <h3 className="text-base font-bold text-gray-800">{selectedPackage.type} UC</h3>
               </div>
             </div>
             <div className="text-right">
@@ -155,7 +145,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                         className="font-mono text-base tracking-wider text-gray-800 px-2 select-all"
                         style={{ wordBreak: 'break-all' }}
                       >
-                        {promoCode || "aMbNtKgB2a2771T86d"}
+                        {promoCode}
                       </div>
                     </div>
                     
