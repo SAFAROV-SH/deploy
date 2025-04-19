@@ -209,12 +209,6 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                       >
                         Qayta urinish
                       </button>
-                      <button 
-                        onClick={debugFetch}
-                        className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-1 rounded-md text-sm font-medium"
-                      >
-                        Tashxis
-                      </button>
                     </div>
                   </div>
                 ) : (
