@@ -14,18 +14,21 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       setLoading(true);
       setError(null); // Xatolik xabarini tozalash
       
-      // Server URL manzili
-      const apiUrl = `https://probots.uz/api/promo.php?user_id=${user.id}`;
+      // Server URL manzili - http protokolidan ishonchli bo'lish uchun https ga o'zgartirdik
+      const apiUrl = `https://probots.uz/api/promo.php`;
       
-      // CORS muammolarini hal qilish uchun parametrlar
+      // POST metodidan foydalanish va JSON formatida ma'lumot yuborish
       const fetchOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        // credentials: 'include', // Kerak bo'lsa, cookie ma'lumotlarini yuborish uchun
-        mode: 'cors', // CORS so'rovini belgilash
+        body: JSON.stringify({
+          user_id: user.id,
+          package_id: selectedPackage.id || selectedPackage.type // package_id ni ham yuboramiz
+        }),
+        credentials: 'include', // Cookie ma'lumotlarini yuborish (agar kerak bo'lsa)
       };
       
       const response = await fetch(apiUrl, fetchOptions);
@@ -38,6 +41,8 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       
       if (data && data.promo_code) {
         setPromoCode(data.promo_code);
+      } else if (data && data.error) {
+        throw new Error(data.error);
       } else {
         throw new Error('Server javobida promo_code topilmadi');
       }
@@ -101,6 +106,48 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
   // Qayta urinish funksiyasi
   const handleRetry = () => {
     fetchPromoCode();
+  };
+
+  // Boshqa usul bilan sinab ko'rish - JSONP yoki proxy server orqali
+  const tryAlternativeFetch = async () => {
+    if (!user || !user.id || !selectedPackage) return;
+    
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Proxy server orqali yoki to'g'ridan-to'g'ri so'rov yuborish
+      // Bu yerda so'rovni proxy-utils.js fayli orqali amalga oshirish mumkin
+      const proxyUrl = '/api/proxy-promo'; // Frontend serverida proxy endpoint yarating
+      
+      const response = await fetch(proxyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          package_id: selectedPackage.id || selectedPackage.type
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Server xatoligi: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data && data.promo_code) {
+        setPromoCode(data.promo_code);
+      } else {
+        throw new Error('Server javobida promo_code topilmadi');
+      }
+    } catch (error) {
+      console.error("Alternativ usulda yuklashda xatolik:", error);
+      setError(`Alternativ usulda ham xatolik: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen || !selectedPackage) return null;
@@ -167,12 +214,20 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                 ) : error ? (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
                     <p className="text-red-600 text-sm mb-2">{error}</p>
-                    <button 
-                      onClick={handleRetry}
-                      className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1 rounded-md text-sm font-medium"
-                    >
-                      Qayta urinish
-                    </button>
+                    <div className="flex space-x-2 justify-center">
+                      <button 
+                        onClick={handleRetry}
+                        className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1 rounded-md text-sm font-medium"
+                      >
+                        Qayta urinish
+                      </button>
+                      <button 
+                        onClick={tryAlternativeFetch}
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-1 rounded-md text-sm font-medium"
+                      >
+                        Boshqa usul
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="relative">
