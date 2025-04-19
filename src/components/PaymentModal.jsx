@@ -2,42 +2,63 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const PaymentModal = ({ isOpen, onClose, item, user }) => {
-  const [bpugId, setBpugId] = useState("");
+  const [pubgId, setPubgId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   
   // Balansni user obyektidan olish
   const userBalance = user.balance;
-  console.log(userBalance+"-"+user.balance);
   const hasSufficientBalance = userBalance >= item.price;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!hasSufficientBalance) {
       return;
     }
     
-    if (!bpugId || bpugId.trim() === "") {
+    if (!pubgId || pubgId.trim() === "") {
       setError("PUBG ID kiritish majburiy!");
       return;
     }
     
     // To'lovni amalga oshirish
     setIsLoading(true);
+    setError("");
     
-    // API chaqiruvini simulyatsiya qilish
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      // Serverga so'rov yuborish
+      const response = await fetch('https://probots.uz/api/ucid.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          ucAmount: item.mainAmount,
+          pubgId: pubgId
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || "To'lov amalga oshirilmadi");
+      }
+      
+      // Serverdan ijobiy javob keldi
       setSuccess(true);
-      // Bu yerda haqiqiy API chaqiruvini amalga oshirasiz
-    }, 1500);
+    } catch (err) {
+      setError(err.message || "To'lov jarayonida xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     if (isOpen) {
-      setBpugId("");
+      setPubgId("");
       setError("");
       setSuccess(false);
     }
@@ -120,13 +141,13 @@ const PaymentModal = ({ isOpen, onClose, item, user }) => {
               ) : (
                 <form onSubmit={handleSubmit} className="payment-form">
                   <div className="form-groupp">
-                    <label htmlFor="bpugId">BPUG ID raqamingizni kiriting:</label>
+                    <label htmlFor="pubgId">PUBG ID raqamingizni kiriting:</label>
                     <input
                       type="text"
-                      id="bpugId"
-                      value={bpugId}
+                      id="pubgId"
+                      value={pubgId}
                       onChange={(e) => {
-                        setBpugId(e.target.value);
+                        setPubgId(e.target.value);
                         setError("");
                       }}
                       className={error ? "error" : ""}
