@@ -1,4 +1,4 @@
-import { CreditCard, Gift, History } from 'lucide-react';
+import { CreditCard, Gift, History, ChevronDown, ChevronUp } from 'lucide-react';
 import Header from './Header';
 import { useState, useEffect } from 'react';
 
@@ -7,6 +7,8 @@ export default function UcMain() {
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // Ochilgan buyurtma ID sini saqlash uchun
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
   
   // User ID ni olish funktsiyasi
   const getUserId = () => {
@@ -24,8 +26,6 @@ export default function UcMain() {
     if (userIdFromSession) return userIdFromSession;
     
     // Agar user ID topilmasa, default qiymat qaytarish mumkin
-    // Bu yerda misol tariqasida default ID qaytaryapman, lekin
-    // haqiqiy loyihada bu yerda xatolik qaytarish to'g'riroq bo'ladi
     return "default_user";
   };
   
@@ -36,10 +36,10 @@ export default function UcMain() {
     setLoading(true);
     setError(null);
     
-    // User ID ni olish
-    const userId  = user.id;
-    
     try {
+      // User ID ni olish
+      const userId = user.id;
+      
       // User ID ni URL parameter sifatida qo'shib so'rov yuborish
       const response = await fetch(`https://probots.uz/api/history.php?user_id=${userId}`);
       
@@ -100,6 +100,15 @@ export default function UcMain() {
     setShowHistory(!showHistory);
   };
 
+  // Buyurtma ustiga bosilganida uni ochish yoki yopish
+  const toggleOrderDetails = (orderId) => {
+    if (expandedOrderId === orderId) {
+      setExpandedOrderId(null); // Agar xozir ochiq bo'lsa, yopamiz
+    } else {
+      setExpandedOrderId(orderId); // Aks holda, yangi buyurtmani ochamiz
+    }
+  };
+
   // Sanani formatlash uchun funksiya
   const formatDate = (dateString) => {
     try {
@@ -124,13 +133,13 @@ export default function UcMain() {
   return (
     <>
     <Header />
-    <div className="flex justify-center min-h-screen bg-white mx-auto mt-1" style={{ width: '98%' }}>
-      <div className="w-full py-1">
+    <div className="flex justify-center min-h-screen bg-gray-50 mx-auto mt-1" style={{ width: '98%' }}>
+      <div className="w-full max-w-md py-1">
         {/* Header with Logo */}
-        <div className="bg-blue-600 rounded-t-2xl pt-6 pb-5 px-4 text-center shadow-lg">
-          <h1 className="text-white font-bold text-2xl mb-3">PUBG MOBILE</h1>
-          <div className="flex justify-center mb-4">
-            <div className="bg-blue-500 p-2 rounded-md">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-t-2xl pt-8 pb-6 px-4 text-center shadow-lg">
+          <h1 className="text-white font-bold text-3xl mb-3 tracking-wide">PUBG MOBILE</h1>
+          <div className="flex justify-center mb-5">
+            <div className="bg-blue-500 p-3 rounded-md shadow-lg transform hover:scale-105 transition-all duration-300">
               <div className="border-2 border-blue-400 rounded p-1">
                 <div className="text-white font-bold text-3xl tracking-wide">PUBG</div>
                 <div className="text-white text-base tracking-wider">MOBILE</div>
@@ -141,13 +150,13 @@ export default function UcMain() {
         </div>
         
         {/* Main Content */}
-        <div className="bg-white rounded-b-2xl shadow-lg p-4 space-y-4">
+        <div className="bg-white rounded-b-2xl shadow-lg p-4 space-y-5">
           {/* ID Option - with click handler */}
           <div 
-            className="bg-blue-50 rounded-xl p-4 flex items-center cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 active:scale-95 shadow-md"
+            className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 flex items-center cursor-pointer hover:shadow-lg transition-all transform hover:scale-102 active:scale-98"
             onClick={handleIdOptionClick}
           >
-            <div className="bg-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
               <CreditCard size={24} />
             </div>
             <div>
@@ -158,10 +167,10 @@ export default function UcMain() {
           
           {/* Promocode Option - with click handler */}
           <div 
-            className="bg-blue-50 rounded-xl p-4 flex items-center cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 active:scale-95 shadow-md"
+            className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 flex items-center cursor-pointer hover:shadow-lg transition-all transform hover:scale-102 active:scale-98"
             onClick={handlePromocodeClick}
           >
-            <div className="bg-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
               <Gift size={24} />
             </div>
             <div>
@@ -172,38 +181,43 @@ export default function UcMain() {
           
           {/* History Option - with click handler */}
           <div 
-            className="bg-blue-50 rounded-xl p-4 flex items-center cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 active:scale-95 shadow-md"
+            className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 flex items-center cursor-pointer hover:shadow-lg transition-all transform hover:scale-102 active:scale-98"
             onClick={handleHistoryClick}
           >
-            <div className="bg-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full text-white mr-4 shadow-md">
               <History size={24} />
             </div>
-            <div>
+            <div className="flex-grow">
               <h3 className="font-bold text-lg text-gray-800">Buyurtmalar tarixi</h3>
               <p className="text-gray-600 text-sm">Oldingi xaridlaringiz tarixi</p>
+            </div>
+            <div className="text-blue-500">
+              {showHistory ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </div>
           </div>
           
           {/* History Content - Shows when clicked */}
           {showHistory && (
-            <div className="mt-4 bg-white rounded-lg border border-blue-200 shadow-md overflow-hidden">
-              <div className="bg-blue-500 p-3 text-white text-center">
+            <div className="mt-4 bg-white rounded-xl border border-blue-200 shadow-md overflow-hidden transition-all duration-300">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 text-white text-center shadow-sm">
                 <h3 className="font-bold text-lg">Buyurtmalar Tarixi</h3>
               </div>
               
               {loading && (
                 <div className="p-8 text-center">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-                  <p className="mt-2 text-gray-600">Ma'lumotlar yuklanmoqda...</p>
+                  <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+                  <p className="mt-3 text-gray-600 font-medium">Ma'lumotlar yuklanmoqda...</p>
                 </div>
               )}
               
               {error && (
-                <div className="p-4 text-center text-red-500">
-                  <p>{error}</p>
+                <div className="p-6 text-center">
+                  <div className="bg-red-100 text-red-500 p-4 rounded-lg mb-4">
+                    <p className="font-medium">{error}</p>
+                  </div>
                   <button 
                     onClick={fetchOrderHistory} 
-                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                    className="px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 shadow-md transition-colors"
                   >
                     Qayta urinish
                   </button>
@@ -211,29 +225,61 @@ export default function UcMain() {
               )}
               
               {!loading && !error && orderHistory.length === 0 && (
-                <div className="p-4 text-center text-gray-500">
-                  <p>Sizda hali buyurtmalar tarixi mavjud emas</p>
+                <div className="p-6 text-center">
+                  <div className="bg-blue-50 text-blue-600 p-5 rounded-lg">
+                    <p className="font-medium">Sizda hali buyurtmalar tarixi mavjud emas</p>
+                  </div>
                 </div>
               )}
               
               {!loading && !error && orderHistory.length > 0 && (
                 <div className="divide-y divide-blue-100">
                   {orderHistory.map((order) => (
-                    <div key={order.id} className="flex items-center p-4 hover:bg-blue-50">
-                      <div className="bg-blue-100 p-2 rounded-full mr-3">
-                        {order.type === 'ID' || order.type === 'id' ? (
-                          <CreditCard size={20} className="text-blue-600" />
-                        ) : (
-                          <Gift size={20} className="text-blue-600" />
-                        )}
+                    <div key={order.id} className="hover:bg-blue-50 transition-colors">
+                      {/* Buyurtma asosiy qismi - har doim ko'rinadi */}
+                      <div 
+                        className="flex items-center p-4 cursor-pointer" 
+                        onClick={() => toggleOrderDetails(order.id)}
+                      >
+                        <div className="bg-blue-100 p-3 rounded-full mr-3">
+                          {order.type === 'ID' || order.type === 'id' ? (
+                            <CreditCard size={20} className="text-blue-600" />
+                          ) : (
+                            <Gift size={20} className="text-blue-600" />
+                          )}
+                        </div>
+                        <div className="flex-grow">
+                          <p className="font-medium text-gray-800">
+                            {order.type === 'ID' || order.type === 'id' ? 'ID' : 'Promokod'}: {' '}
+                            <span className="text-blue-600 font-bold">{order.uc} UC</span>
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <div className="text-sm text-gray-500 mb-1">{formatDate(order.date)}</div>
+                          {expandedOrderId === order.id ? (
+                            <ChevronUp size={16} className="text-blue-500" />
+                          ) : (
+                            <ChevronDown size={16} className="text-blue-500" />
+                          )}
+                        </div>
                       </div>
-                      <div className="flex-grow">
-                        <p className="font-medium text-gray-800">
-                          {order.type === 'ID' || order.type === 'id' ? 'ID' : 'Promokod'}: {' '}
-                          <span className="text-blue-600">{order.pid}</span>
-                        </p>
-                      </div>
-                      <div className="text-sm text-gray-500">{formatDate(order.date)}</div>
+                      
+                      {/* Yashiringan qism - faqat bosilganda ko'rinadi */}
+                      {expandedOrderId === order.id && (
+                        <div className="bg-blue-50 p-4 border-t border-blue-100 transition-all duration-300 animate-fadeIn">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center mr-3">
+                              <span className="text-blue-700 font-bold">ID</span>
+                            </div>
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">Buyurtma raqami:</div>
+                              <div className="bg-white px-4 py-2 rounded-lg border border-blue-200 font-mono text-blue-700 select-all">
+                                {order.pid}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -243,7 +289,7 @@ export default function UcMain() {
         </div>
         
         {/* Footer */}
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center pb-4">
           <p className="text-gray-500 text-xs">© 2025 PUBG MOBILE. Barcha huquqlar himoyalangan.</p>
         </div>
       </div>
