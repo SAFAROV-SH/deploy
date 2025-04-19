@@ -4,6 +4,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
   const [promoCode, setPromoCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   // Promo kodni bazadan olish funksiyasi
   const fetchPromoCode = async () => {
@@ -11,22 +12,25 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     
     try {
       setLoading(true);
+      setError(null); // Xatolik xabarini tozalash
+      
       const response = await fetch(`http://probots.uz/api/promo.php?user_id=${user.id}`);
       
       if (!response.ok) {
-        throw new Error('Promo kodni olishda xatolik yuz berdi');
+        throw new Error(`Server xatoligi: ${response.status}`);
       }
       
       const data = await response.json();
       if (data && data.promo_code) {
         setPromoCode(data.promo_code);
       } else {
-        setPromoCode("Promo kod topilmadi");
+        throw new Error('Server javobida promo_code topilmadi');
       }
-      setLoading(false);
     } catch (error) {
       console.error("Promo kodni yuklashda xatolik:", error);
-      setPromoCode("Xatolik yuz berdi");
+      setError(error.message);
+      setPromoCode(""); // Promo kodni tozalash
+    } finally {
       setLoading(false);
     }
   };
@@ -73,6 +77,11 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
     } catch (err) {
       console.error('Nusxa olishda xatolik:', err);
     }
+  };
+
+  // Qayta urinish funksiyasi
+  const handleRetry = () => {
+    fetchPromoCode();
   };
 
   if (!isOpen || !selectedPackage) return null;
@@ -136,6 +145,16 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                   <div className="flex justify-center py-3">
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
                   </div>
+                ) : error ? (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+                    <p className="text-red-600 text-sm mb-2">{error}</p>
+                    <button 
+                      onClick={handleRetry}
+                      className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1 rounded-md text-sm font-medium"
+                    >
+                      Qayta urinish
+                    </button>
+                  </div>
                 ) : (
                   <div className="relative">
                     <div 
@@ -149,12 +168,14 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
                       </div>
                     </div>
                     
-                    <button 
-                      onClick={copyToClipboard}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-100 hover:bg-green-200 text-green-600 rounded-md px-2 py-1 text-xs font-medium transition-colors"
-                    >
-                      {copySuccess ? "Nusxalandi!" : "Nusxalash"}
-                    </button>
+                    {promoCode && (
+                      <button 
+                        onClick={copyToClipboard}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-100 hover:bg-green-200 text-green-600 rounded-md px-2 py-1 text-xs font-medium transition-colors"
+                      >
+                        {copySuccess ? "Nusxalandi!" : "Nusxalash"}
+                      </button>
+                    )}
                   </div>
                 )}
                 
