@@ -107,24 +107,29 @@ const Referral = () => {
         </div>
       </div>
 
-      {/* Referral Link */}
+      {/* Referral Link - FIXED VERSION */}
       <div className="bg-white rounded-xl shadow-md p-4 mb-6">
-        <div className="flex items-center">
-          <input 
-            type="text" 
-            value={referalLink} 
-            readOnly 
-            className="flex-1 text-sm border border-gray-300 rounded-l-lg py-2 px-3 bg-gray-50"
-          />
-          <button 
-            onClick={copyReferalLink} 
-            className={`flex items-center justify-center py-2 px-4 rounded-r-lg text-white font-medium text-sm ${copySuccess ? 'bg-green-600' : 'bg-blue-600'}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-            </svg>
-            {copySuccess ? "Nusxalandi!" : "Nusxalash"}
-          </button>
+        <div className="flex flex-col">
+          <div className="relative overflow-hidden rounded-lg mb-2">
+            <input 
+              type="text" 
+              value={referalLink} 
+              readOnly 
+              className="w-full text-sm border border-gray-300 rounded-lg py-2 px-3 bg-gray-50 pr-20"
+            />
+            <button 
+              onClick={copyReferalLink} 
+              className={`absolute right-0 top-0 h-full flex items-center justify-center px-3 text-white font-medium text-sm ${copySuccess ? 'bg-green-600' : 'bg-blue-600'} rounded-r-lg`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              </svg>
+              {copySuccess ? "OK" : "Nusxa"}
+            </button>
+          </div>
+          <div className="text-xs text-center text-gray-500">
+            Do'stlaringizni taklif qilish uchun havolani ulashing
+          </div>
         </div>
       </div>
 
