@@ -33,6 +33,7 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
     }
     mybalance = data.balance
     user.change(data.balance);
+    user.changeuid(data.id);
   })
   .catch(error => console.error('Error:', error));
       const user = {
@@ -47,6 +48,9 @@ this.balance = parseInt(this.balance)+parseInt(sum);
         },
         balmn(sum){
 this.balance = parseInt(this.balance)-parseInt(sum);
+        },
+        changeuid(id){
+this.uid = id;
         }
       }
     </script>

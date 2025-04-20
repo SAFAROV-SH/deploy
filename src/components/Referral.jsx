@@ -20,7 +20,7 @@ const Referral = () => {
   const referalLink = "https://example.com/ref/yourcode";
 
   useEffect(() => {
-    fetch('https://probots.uz/api/friends.php')
+    fetch('https://probots.uz/api/friends.php?id='+user.uid)
       .then(response => {
         if (!response.ok) {
           throw new Error('Server javob qaytarmadi');
