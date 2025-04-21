@@ -23,7 +23,7 @@ const Deposit = () => {
     const fetchPaymentHistory = async () => {
         setHistoryLoading(true);
         try {
-            const response = await fetch('https://probots.uz/api/payhistory.php');
+            const response = await fetch('https://probots.uz/api/payhistory.php?user_id='+user.id);
             const data = await response.json();
             
             if (data && Array.isArray(data)) {
