@@ -157,7 +157,7 @@ const Deposit = () => {
                                 <div className="flex items-center">
                                     <span className="text-xs font-medium text-center">{method.name}</span>
                                     {paymentMethod === method.id && (
-                                        <i className="bi bi-check-circle-fill text-blue-600 ml-1 text-xs"></i>
+                                        <i className=""></i>
                                     )}
                                 </div>
                             </div>
