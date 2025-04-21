@@ -237,7 +237,7 @@ const Deposit = () => {
                     
                     <div className="divide-y divide-gray-100">
                         {paymentHistory.map((payment, index) => (
-                            <div key={index} className="px-5 py-4 flex items-center hover:bg-gray-50 transition-colors">
+                            <div key={index} className="px-3 py-4 flex items-center hover:bg-gray-50 transition-colors">
                                 <div className="flex items-center justify-center w-10 h-10 rounded-full mr-4" 
                                      style={{ 
                                         backgroundColor: payment.status === 'success' ? '#e6f7ed' : 
