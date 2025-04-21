@@ -9,6 +9,12 @@ const Deposit = () => {
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [historyLoading, setHistoryLoading] = useState(true);
 
+    const inputStyle = {
+        WebkitAppearance: 'none',
+        MozAppearance: 'textfield',
+        margin: 0
+    };
+
     // To'lovlar tarixini olish
     useEffect(() => {
         fetchPaymentHistory();
@@ -96,29 +102,13 @@ const Deposit = () => {
     const getStatusIcon = (status) => {
         switch(status) {
             case 'success':
-                return (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
-                        <span className="text-green-600 text-lg">✓</span>
-                    </div>
-                );
+                return <span className="text-green-600 text-lg">✓</span>;
             case 'pending':
-                return (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-yellow-100">
-                        <span className="text-yellow-600 text-lg">⏳</span>
-                    </div>
-                );
+                return <span className="text-yellow-600 text-lg">⏳</span>;
             case 'canceled':
-                return (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-red-100">
-                        <span className="text-red-600 text-lg">✕</span>
-                    </div>
-                );
+                return <span className="text-red-600 text-lg">✕</span>;
             default:
-                return (
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100">
-                        <span className="text-gray-600 text-lg">•</span>
-                    </div>
-                );
+                return <span className="text-gray-600 text-lg">•</span>;
         }
     };
 
@@ -143,28 +133,29 @@ const Deposit = () => {
     return (
         <>
         <Header />
-        <div className="flex flex-col items-center px-4 py-6 w-full max-w-md mx-auto">
+        <div className="flex flex-col items-center p-4 w-full max-w-md mx-auto">
             {/* Deposit Card */}
-            <div className="w-full bg-white rounded-xl shadow-md mb-6 overflow-hidden">
+            <div className="w-full bg-white rounded-lg shadow-md overflow-hidden" style={{ maxWidth: '500px' }}>
                 <div className="p-5">
                     <h2 className="text-xl font-bold text-gray-800 mb-1">Hisobni to'ldirish</h2>
                     <p className="text-sm text-gray-600 mb-4">To'lov usulini tanlang va summani kiriting</p>
                 
                     {/* Payment Methods */}
-                    <div className="flex flex-wrap gap-3 mb-6">
+                    <div className="flex justify-between mb-6 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         {paymentMethods.map(method => (
                             <div 
                                 key={method.id}
-                                className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 cursor-pointer transition-all w-full sm:w-28 
+                                className={`flex flex-col items-center mx-1 p-3 rounded-lg border-2 cursor-pointer transition-all flex-shrink-0
                                     ${paymentMethod === method.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300'}`}
                                 onClick={() => setPaymentMethod(method.id)}
+                                style={{ width: '30%', minWidth: '90px' }}
                             >
-                                <div className="w-12 h-12 flex items-center justify-center mb-2 overflow-hidden">
+                                <div className="w-10 h-10 flex items-center justify-center mb-2 overflow-hidden">
                                     <img src={method.image} alt={method.name} className="w-full h-auto object-contain" />
                                 </div>
                                 
                                 <div className="flex items-center">
-                                    <span className="text-sm font-medium">{method.name}</span>
+                                    <span className="text-xs font-medium text-center">{method.name}</span>
                                     {paymentMethod === method.id && (
                                         <span className="ml-1 text-blue-600">✓</span>
                                     )}
@@ -188,11 +179,7 @@ const Deposit = () => {
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                style={{ 
-                                    WebkitAppearance: 'none',
-                                    MozAppearance: 'textfield',
-                                    margin: 0
-                                }}
+                                style={inputStyle}
                             />
                             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500 bg-gray-100 border-l rounded-r-md">
                                 {paymentMethod === 'foreign' ? '₽' : 
@@ -220,10 +207,10 @@ const Deposit = () => {
                         onClick={handleDeposit}
                     >
                         {isLoading ? (
-                            <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
+                            <div className="flex items-center">
+                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                Yuklanmoqda...
+                            </div>
                         ) : (
                             "To'lov qilish"
                         )}
@@ -239,19 +226,24 @@ const Deposit = () => {
             
             {/* Payment History Section */}
             {paymentHistory.length > 0 && (
-                <div className="w-full bg-white rounded-xl shadow-md overflow-hidden">
+                <div className="w-full bg-white rounded-lg shadow-md overflow-hidden mt-6" style={{ maxWidth: '500px' }}>
                     <div className="px-5 py-4 border-b border-gray-100">
                         <h3 className="text-lg font-semibold text-gray-800">To'lovlar tarixi</h3>
                     </div>
                     
                     <div className="divide-y divide-gray-100">
                         {paymentHistory.map((payment, index) => (
-                            <div key={index} className="px-5 py-4 flex items-center">
-                                <div className="mr-4">
+                            <div key={index} className="px-5 py-4 flex items-center hover:bg-gray-50 transition-colors">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full mr-4" 
+                                     style={{ 
+                                        backgroundColor: payment.status === 'success' ? '#e6f7ed' : 
+                                                         payment.status === 'pending' ? '#fff8e6' : 
+                                                         payment.status === 'canceled' ? '#fde8e8' : '#f3f4f6'
+                                     }}>
                                     {getStatusIcon(payment.status)}
                                 </div>
                                 <div className="flex-1">
-                                    <div className="font-medium">
+                                    <div className="font-medium text-gray-800">
                                         {payment.amount} 
                                         {payment.payment_type === 'foreign' ? '₽' : 
                                         payment.payment_type === 'crypto' ? 'USDT' : 
@@ -270,10 +262,7 @@ const Deposit = () => {
             {/* Loading State */}
             {historyLoading && (
                 <div className="w-full flex flex-col items-center justify-center p-6">
-                    <svg className="animate-spin h-8 w-8 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-2"></div>
                     <p className="text-gray-600 text-sm">To'lovlar tarixi yuklanmoqda...</p>
                 </div>
             )}
