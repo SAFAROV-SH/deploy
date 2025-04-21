@@ -102,13 +102,13 @@ const Deposit = () => {
     const getStatusIcon = (status) => {
         switch(status) {
             case 'success':
-                return <span className="text-green-600 text-lg">✓</span>;
+                return <i className="bi bi-check-circle-fill text-green-600"></i>;
             case 'pending':
-                return <span className="text-yellow-600 text-lg">⏳</span>;
+                return <i className="bi bi-hourglass-split text-yellow-600"></i>;
             case 'canceled':
-                return <span className="text-red-600 text-lg">✕</span>;
+                return <i className="bi bi-x-circle-fill text-red-600"></i>;
             default:
-                return <span className="text-gray-600 text-lg">•</span>;
+                return <i className="bi bi-circle-fill text-gray-400"></i>;
         }
     };
 
@@ -157,7 +157,7 @@ const Deposit = () => {
                                 <div className="flex items-center">
                                     <span className="text-xs font-medium text-center">{method.name}</span>
                                     {paymentMethod === method.id && (
-                                        <span className="ml-1 text-blue-600">✓</span>
+                                        <i className="bi bi-check-circle-fill text-blue-600 ml-1 text-xs"></i>
                                     )}
                                 </div>
                             </div>
@@ -192,7 +192,7 @@ const Deposit = () => {
                     {/* Error Message */}
                     {errorMessage && (
                         <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md flex items-start">
-                            <span className="mr-2">⚠️</span> 
+                            <i className="bi bi-exclamation-triangle-fill mr-2 text-lg flex-shrink-0"></i> 
                             <span className="text-sm">{errorMessage}</span>
                         </div>
                     )}
@@ -208,17 +208,19 @@ const Deposit = () => {
                     >
                         {isLoading ? (
                             <div className="flex items-center">
-                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                <i className="bi bi-arrow-repeat animate-spin mr-2"></i>
                                 Yuklanmoqda...
                             </div>
                         ) : (
-                            "To'lov qilish"
+                            <>
+                                <i className="bi bi-credit-card mr-2"></i> To'lov qilish
+                            </>
                         )}
                     </button>
                     
                     {/* Secure Notice */}
                     <div className="flex items-center justify-center mt-4 text-sm text-gray-600">
-                        <span className="mr-2">🔒</span> 
+                        <i className="bi bi-shield-lock-fill mr-2 text-gray-500"></i>
                         <span>Xavfsiz to'lov kafolatlanadi</span>
                     </div>
                 </div>
@@ -228,13 +230,15 @@ const Deposit = () => {
             {paymentHistory.length > 0 && (
                 <div className="w-full bg-white rounded-lg shadow-md overflow-hidden mt-6" style={{ maxWidth: '500px' }}>
                     <div className="px-5 py-4 border-b border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-800">To'lovlar tarixi</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                            <i className="bi bi-clock-history mr-2 text-gray-600"></i> To'lovlar tarixi
+                        </h3>
                     </div>
                     
                     <div className="divide-y divide-gray-100">
                         {paymentHistory.map((payment, index) => (
                             <div key={index} className="px-5 py-4 flex items-center hover:bg-gray-50 transition-colors">
-                                <div className="flex items-center justify-center w-8 h-8 rounded-full mr-4" 
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full mr-4" 
                                      style={{ 
                                         backgroundColor: payment.status === 'success' ? '#e6f7ed' : 
                                                          payment.status === 'pending' ? '#fff8e6' : 
@@ -250,7 +254,8 @@ const Deposit = () => {
                                         'so\'m'}
                                     </div>
                                 </div>
-                                <div className="text-sm text-gray-500 whitespace-nowrap">
+                                <div className="text-sm text-gray-500 whitespace-nowrap flex items-center">
+                                    <i className="bi bi-calendar3 mr-1"></i>
                                     {formatDate(payment.date)}
                                 </div>
                             </div>
@@ -262,7 +267,7 @@ const Deposit = () => {
             {/* Loading State */}
             {historyLoading && (
                 <div className="w-full flex flex-col items-center justify-center p-6">
-                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                    <i className="bi bi-arrow-repeat animate-spin text-blue-500 text-3xl mb-2"></i>
                     <p className="text-gray-600 text-sm">To'lovlar tarixi yuklanmoqda...</p>
                 </div>
             )}
