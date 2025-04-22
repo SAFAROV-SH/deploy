@@ -17,7 +17,7 @@ const Referral = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
-  const referalLink = "https://example.com/ref/yourcode";
+  const referalLink = "https://t.me/BoomUcBot?start=Id"+user.uid;
 
   useEffect(() => {
     fetch('https://probots.uz/api/friends.php?id='+user.uid)
