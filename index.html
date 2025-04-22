@@ -27,7 +27,7 @@ let mybalance;
 fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
   .then(response => response.json())
   .then(data => {
-    if (data.status == false) {
+    if (data.id > 0) {}else{
       window.open("https://t.me/boomucbot?start=refId1", '_blank');
       tg.close();  // Mini appni yopish
     }
