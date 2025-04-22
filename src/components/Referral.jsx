@@ -13,7 +13,7 @@ const itemVariants = {
 };
 const shareUrl = () => {
   const url = 'https://t.me/share/url?url=https://t.me/BoomUcBot?start=Id1';
-  window.open(url, '_blank');
+  window.location.href = url;
 };
 const Referral = () => {
   const [referalFriends, setReferalFriends] = useState([]);
