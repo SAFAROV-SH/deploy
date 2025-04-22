@@ -11,7 +11,10 @@ const itemVariants = {
     transition: { delay: index * 0.1, duration: 0.5, ease: "easeOut" },
   }),
 };
-
+const shareUrl = () => {
+  const url = 'https://t.me/share/url?url=https://t.me/BoomUcBot?start=Id1';
+  window.open(url, '_blank');
+};
 const Referral = () => {
   const [referalFriends, setReferalFriends] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -208,7 +211,7 @@ const Referral = () => {
           <div className="px-6 py-6">
             <div className="flex justify-center mb-6">
               <button 
-                onClick={copyReferalLink}
+                onClick={shareUrl}
                 className="flex items-center justify-center py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium text-sm shadow-md transition-all"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
