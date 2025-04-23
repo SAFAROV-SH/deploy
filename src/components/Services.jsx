@@ -3,9 +3,20 @@ import Header from './Header';
 
 const Services = () => {
   const handleServiceClick = (service) => {
-    console.log(`Navigating to ${service} service page`);
-    // Bu yerda routing orqali kerakli sahifaga o'tish logikasi bo'ladi
-    // navigate(`/${service}`);
+
+    const currentUrl = window.location.href;
+    
+    // Check if the URL contains ?route=ucshop
+    if (currentUrl.includes('?route=service')) {
+      // Replace ucshop with ucshop_id
+      const newUrl = currentUrl.replace('?route=service', '?route='+service);
+      window.location.href = newUrl;
+    } else {
+      // If the URL doesn't have the parameter, add it
+      const separator = currentUrl.includes('?') ? '&' : '?';
+      window.location.href = `${currentUrl}${separator}route=`+service;
+    }
+
   };
 
   const services = [
@@ -14,7 +25,7 @@ const Services = () => {
       title: 'PUBG Mobile UC',
       description: 'O\'yin uchun UC sotib olish',
       icon: <i className="bi bi-controller"></i>,
-      onClick: () => handleServiceClick('pubg-uc')
+      onClick: () => handleServiceClick('ucshop')
     },
     {
       id: 'telegram-premium',

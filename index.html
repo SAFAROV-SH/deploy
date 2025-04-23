@@ -28,7 +28,7 @@ fetch('https://probots.uz/api/main.php?uid=' + userI, { method: 'GET' })
   .then(response => response.json())
   .then(data => {
     if (data.id > 0) {}else{
-      // window.location.href = "https://t.me/boomucbot?start=refId1";
+      window.location.href = "https://t.me/boomucbot?start=refId1";
       tg.close();  // Mini appni yopish
     }
     mybalance = data.balance
