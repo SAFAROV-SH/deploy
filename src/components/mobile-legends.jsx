@@ -148,34 +148,6 @@ const MobileLegends = () => {
           </div>
         </div>
 
-        {/* ID Input */}
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-bold text-gray-800 mb-3">O'yin ID raqamingizni kiriting</h3>
-          
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">O'yin ID</label>
-              <input 
-                type="text" 
-                placeholder="123456789" 
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Server</label>
-              <input 
-                type="text" 
-                placeholder="12345" 
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            
-            <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors duration-200">
-              Tekshirish
-            </button>
-          </div>
-        </div>
       </div>
     </>
   );
