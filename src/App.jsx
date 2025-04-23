@@ -10,6 +10,7 @@ import UcMain from './components/UcMain';
 import UcPromo from './components/UcPromo';
 import Service from './components/Services';
 import TelegramStars from './components/telegram-stars';
+import MobileLegends from './components/mobile-legends';
 
 const App = () => {
   const location = useLocation();
@@ -60,8 +61,10 @@ const App = () => {
         return <UcShop key="ucshop" />;
       case 'ucshop_pr':
         return <UcPromo key="ucpromo" />;
+        case 'telegram-stars':
+        return <TelegramStars key="ucpromo" />;
       default:
-        return <TelegramStars key="default-home" />;
+        return <MobileLegends key="default-home" />;
     }
   };
 
