@@ -9,6 +9,7 @@ import UcShop from './components/Ucshop';
 import UcMain from './components/UcMain';
 import UcPromo from './components/UcPromo';
 import Service from './components/Services';
+import TelegramStars from './components/telegram-stars';
 
 const App = () => {
   const location = useLocation();
@@ -60,7 +61,7 @@ const App = () => {
       case 'ucshop_pr':
         return <UcPromo key="ucpromo" />;
       default:
-        return <Home key="default-home" />;
+        return <TelegramStars key="default-home" />;
     }
   };
 
