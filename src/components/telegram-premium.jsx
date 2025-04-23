@@ -224,42 +224,6 @@ const TelegramPremium = () => {
           </div>
         </div>
         
-        {/* Input Section */}
-        <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Premium faollashtirish</h2>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Telegram telefon raqami</label>
-              <input 
-                type="text" 
-                placeholder="+998 90 123 45 67" 
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Ismingiz</label>
-              <input 
-                type="text" 
-                placeholder="Ismingizni kiriting" 
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            
-            <div className="flex items-center">
-              <input id="terms" type="checkbox" className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                Foydalanish shartlariga roziman
-              </label>
-            </div>
-            
-            <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors duration-200">
-              <i className="bi bi-credit-card-fill mr-2"></i>
-              To'lovga o'tish
-            </button>
-          </div>
-        </div>
       </div>
     </>
   );
