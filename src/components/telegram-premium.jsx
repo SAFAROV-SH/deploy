@@ -69,12 +69,9 @@ const TelegramPremium = () => {
     }
   ];
 
-  const handlePlanSelect = (planId) => {
+  const handleSubscribe = (planId) => {
+    console.log(`Subscribing to plan: ${planId}`);
     setSelectedPlan(planId);
-  };
-
-  const handleSubscribe = () => {
-    console.log(`Subscribing to plan: ${selectedPlan}`);
     // Implementation for subscription logic
   };
 
@@ -103,8 +100,7 @@ const TelegramPremium = () => {
           {premiumPlans.map((plan) => (
             <div
               key={plan.id}
-              onClick={() => handlePlanSelect(plan.id)}
-              className={`relative border-2 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${
+              className={`relative border-2 rounded-xl overflow-hidden transition-all duration-300 ${
                 selectedPlan === plan.id 
                   ? 'border-blue-500 bg-blue-50 shadow-lg' 
                   : 'border-gray-200 bg-white hover:border-blue-300'
@@ -151,23 +147,20 @@ const TelegramPremium = () => {
                   ))}
                 </ul>
                 
-                <div className={`w-full h-2 rounded-full ${
-                  selectedPlan === plan.id ? 'bg-blue-500' : 'bg-gray-200'
-                }`}></div>
+                <button 
+                  onClick={() => handleSubscribe(plan.id)}
+                  className={`w-full py-2.5 px-4 rounded-lg transition-all duration-300 font-medium flex items-center justify-center ${
+                    selectedPlan === plan.id 
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                      : 'bg-blue-100 hover:bg-blue-200 text-blue-700'
+                  }`}
+                >
+                  <i className="bi bi-lightning-charge-fill mr-2"></i>
+                  Faollashtirish
+                </button>
               </div>
             </div>
           ))}
-        </div>
-        
-        {/* Subscribe Button */}
-        <div className="text-center mb-8">
-          <button 
-            onClick={handleSubscribe}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
-          >
-            <i className="bi bi-lightning-charge-fill mr-2"></i>
-            Faollashtirish
-          </button>
         </div>
         
         {/* Features Section */}
@@ -228,6 +221,43 @@ const TelegramPremium = () => {
               <h3 className="font-medium text-gray-800">Obunani bekor qilish mumkinmi?</h3>
               <p className="text-sm text-gray-600">Ha, istalgan vaqtda obunani bekor qilishingiz mumkin, ammo to'langan summa qaytarilmaydi.</p>
             </div>
+          </div>
+        </div>
+        
+        {/* Input Section */}
+        <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Premium faollashtirish</h2>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Telegram telefon raqami</label>
+              <input 
+                type="text" 
+                placeholder="+998 90 123 45 67" 
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Ismingiz</label>
+              <input 
+                type="text" 
+                placeholder="Ismingizni kiriting" 
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            
+            <div className="flex items-center">
+              <input id="terms" type="checkbox" className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+                Foydalanish shartlariga roziman
+              </label>
+            </div>
+            
+            <button className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors duration-200">
+              <i className="bi bi-credit-card-fill mr-2"></i>
+              To'lovga o'tish
+            </button>
           </div>
         </div>
       </div>
