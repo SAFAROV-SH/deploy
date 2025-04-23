@@ -28,6 +28,13 @@ const Services = () => {
       onClick: () => handleServiceClick('ucshop')
     },
     {
+      id: 'mobile-legends',
+      title: 'Mobile Legends',
+      description: 'Olmoslar sotib olish xizmati',
+      icon: <i className="bi bi-diamond-fill"></i>,
+      onClick: () => handleServiceClick('mobile-legends')
+    },
+    {
       id: 'telegram-premium',
       title: 'Telegram Premium',
       description: 'Premium obunani faollashtirish',
@@ -40,13 +47,6 @@ const Services = () => {
       description: 'Stars va yulduzlar sotib olish',
       icon: <i className="bi bi-star-fill"></i>,
       onClick: () => handleServiceClick('telegram-stars')
-    },
-    {
-      id: 'mobile-legends',
-      title: 'Mobile Legends',
-      description: 'Olmoslar sotib olish xizmati',
-      icon: <i className="bi bi-diamond-fill"></i>,
-      onClick: () => handleServiceClick('mobile-legends')
     }
   ];
 
