@@ -40,11 +40,11 @@ const Navbar = () => {
         <span>Uc servis</span>
       </button>
       <button 
-        className={`nav-item ${activeItem === 'referral' ? 'active' : ''}`} 
-        onClick={() => handleMenuClick('referral')}
+        className={`nav-item ${activeItem === 'service' ? 'active' : ''}`} 
+        onClick={() => handleMenuClick('service')}
       >
-        <i className="fas fa-user-plus"></i>
-        <span>Referal</span>
+        <i className="fas bi bi-shield-check"></i>
+        <span>Xizmatlar</span>
       </button>
       <button 
         className={`nav-item ${activeItem === 'home' ? 'active' : ''}`} 

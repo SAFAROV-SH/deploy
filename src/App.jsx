@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import UcShop from './components/Ucshop';
 import UcMain from './components/UcMain';
 import UcPromo from './components/UcPromo';
+import Service from './components/Services';
 
 const App = () => {
   const location = useLocation();
@@ -46,8 +47,8 @@ const App = () => {
     switch(currentRoute) {
       case 'home':
         return <Home key="home" />;
-      case 'referral':
-        return <Referral key="referral" />;
+      case 'service':
+        return <Service key="service" />;
       case 'tasks':
         return <Tasks key="tasks" />;
       case 'deposit':
