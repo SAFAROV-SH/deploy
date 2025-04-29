@@ -136,7 +136,7 @@ const MobileLegends = () => {
               <div className="p-3 border-b border-gray-100">
                 <div className="flex items-center justify-center mb-2">
                   <img 
-                    src="/api/placeholder/50/50" 
+                    src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
                     alt="Diamond" 
                     className="h-12 w-12 object-contain"
                   />
@@ -225,20 +225,7 @@ const MobileLegends = () => {
                 </div>
               </div>
               
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  O'yin ID raqamingiz:
-                </label>
-                <input
-                  type="text"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Masalan: 12345678"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                  required
-                />
-              </div>
-              
+
               {userBalance < selectedPackage.priceValue ? (
                 <div className="mb-4 p-3 bg-red-50 rounded-lg text-center">
                   <p className="text-red-600 mb-2">Hisobingizda yetarli mablag' yo'q!</p>
@@ -254,12 +241,27 @@ const MobileLegends = () => {
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={confirmPurchase}
-                  className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
-                >
-                  Tasdiqlash
-                </button>
+                <>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                      O'yin ID raqamingiz:
+                    </label>
+                    <input
+                      type="text"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholder="Masalan: 12345678"
+                      value={userId}
+                      onChange={(e) => setUserId(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <button
+                    onClick={confirmPurchase}
+                    className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                  >
+                    Tasdiqlash
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -268,4 +270,5 @@ const MobileLegends = () => {
     </>
   );
 };
+
 export default MobileLegends;
