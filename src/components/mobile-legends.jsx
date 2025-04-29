@@ -6,7 +6,7 @@ const MobileLegends = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(50000); // Example balance in so'm
+  const [userBalance, setUserBalance] = useState(user.balance); // Example balance in so'm
   
   // Diamond packages data
   const diamondPackages = [
@@ -234,7 +234,7 @@ const MobileLegends = () => {
                     Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
                   </p>
                   <button
-                    onClick={topUpBalance}
+                    onClick={() => window.location.href = "/?route=deposit"}
                     className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
                   >
                     Hisobni to'ldirish
