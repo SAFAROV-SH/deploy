@@ -3,7 +3,7 @@ import Header from './Header';
 
 const MobileLegends = () => {
   // Initial balance - bu yerda default qiymat berdik
-  const initialBalance = 50000; // Default qiymat
+  const initialBalance = user.balance; // Default qiymat
 
   // State for modal and user data
   const [showModal, setShowModal] = useState(false);
@@ -139,7 +139,7 @@ const MobileLegends = () => {
               <div className="p-3 border-b border-gray-100">
                 <div className="flex items-center justify-center mb-2">
                   <img 
-                    src="/api/placeholder/50/50" 
+                    src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
                     alt="Diamond" 
                     className="h-12 w-12 object-contain"
                   />
