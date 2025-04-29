@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import Header from './Header';
 
 const MobileLegends = () => {
+  // Initial balance - bu yerda default qiymat berdik
+  const initialBalance = 50000; // Default qiymat
+
   // State for modal and user data
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(user.balance); // Example balance in so'm
+  const [userBalance, setUserBalance] = useState(initialBalance); // O'zgartirilgan qator
   
   // Diamond packages data
   const diamondPackages = [
@@ -136,7 +139,7 @@ const MobileLegends = () => {
               <div className="p-3 border-b border-gray-100">
                 <div className="flex items-center justify-center mb-2">
                   <img 
-                    src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
+                    src="/api/placeholder/50/50" 
                     alt="Diamond" 
                     className="h-12 w-12 object-contain"
                   />
@@ -234,7 +237,7 @@ const MobileLegends = () => {
                     Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
                   </p>
                   <button
-                    onClick={() => window.location.href = "/?route=deposit"}
+                    onClick={topUpBalance} // topUpBalance funksiyasini chaqiramiz
                     className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
                   >
                     Hisobni to'ldirish
