@@ -6,7 +6,7 @@ const MobileLegends = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(100); // Example balance in so'm
+  const [userBalance, setUserBalance] = useState(user.balance); // Example balance in so'm
   
   // Diamond packages data
   const diamondPackages = [
