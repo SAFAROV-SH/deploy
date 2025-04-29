@@ -23,7 +23,7 @@ const Deposit = () => {
     const fetchPaymentHistory = async () => {
         setHistoryLoading(true);
         try {
-            const response = await fetch('https://probots.uz/api/payhistory.php?user_id='+user.id);
+            const response = await fetch('https://boomuc.uz/api/payhistory.php?user_id='+user.id);
             const data = await response.json();
             
             if (data && Array.isArray(data)) {
@@ -52,7 +52,7 @@ const Deposit = () => {
         
         try {
             // API ga so'rov yuborish
-            const response = await fetch('https://probots.uz/api/pay.php', {
+            const response = await fetch('https://boomuc.uz/api/pay.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

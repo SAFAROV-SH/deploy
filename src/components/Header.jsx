@@ -11,7 +11,7 @@ const Header = () => {
     // Fetch balance from server
     const fetchBalance = async () => {
       try {
-        const response = await fetch(`https://probots.uz/api/main.php?uid=${user.id}`);
+        const response = await fetch(`https://boomuc.uz/api/main.php?uid=${user.id}`);
         const data = await response.json();
         
         if (data && data.balance !== undefined) {

@@ -34,7 +34,7 @@ const UcShop = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    fetch("https://probots.uz/api/ucprice.php")
+    fetch("https://boomuc.uz/api/ucprice.php")
       .then((response) => response.json())
       .then((result) => setData(result))
       .catch((error) => console.error("Ma'lumot yuklashda xatolik:", error));

@@ -29,7 +29,7 @@ const PaymentModal = ({ isOpen, onClose, item, user }) => {
     
     try {
       // Serverga so'rov yuborish
-      const response = await fetch('https://probots.uz/api/ucid.php', {
+      const response = await fetch('https://boomuc.uz/api/ucid.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

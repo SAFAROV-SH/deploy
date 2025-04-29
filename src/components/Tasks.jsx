@@ -13,7 +13,7 @@ const Tasks = () => {
     // Function to fetch tasks
     const fetchTasks = async () => {
         try {
-            const response = await fetch('https://probots.uz/api/tasks.php?user_id=' + user.id);
+            const response = await fetch('https://boomuc.uz/api/tasks.php?user_id=' + user.id);
             if (!response.ok) {
                 throw new Error('Ma\'lumotlarni yuklashda xatolik yuz berdi');
             }
@@ -39,7 +39,7 @@ const Tasks = () => {
         setCheckingTaskId(task.id); // Set the specific task ID being checked
         try {
             // Send request to check if user is subscribed
-            const response = await fetch(`https://probots.uz/api/taskcheck.php?user_id=${user.id}&task_id=${task.id}`, {
+            const response = await fetch(`https://boomuc.uz/api/taskcheck.php?user_id=${user.id}&task_id=${task.id}`, {
                 method: 'GET',});
             
             

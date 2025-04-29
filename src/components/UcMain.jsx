@@ -41,7 +41,7 @@ export default function UcMain() {
       const userId = user.id;
       
       // User ID ni URL parameter sifatida qo'shib so'rov yuborish
-      const response = await fetch(`https://probots.uz/api/history.php?user_id=${userId}`);
+      const response = await fetch(`https://boomuc.uz/api/history.php?user_id=${userId}`);
       
       if (!response.ok) {
         throw new Error(`Server xatosi: ${response.status}`);

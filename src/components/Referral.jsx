@@ -23,7 +23,7 @@ const Referral = () => {
   const referalLink = "https://t.me/BoomUcBot?start=Id"+user.uid;
 
   useEffect(() => {
-    fetch('https://probots.uz/api/friends.php?id='+user.uid)
+    fetch('https://boomuc.uz/api/friends.php?id='+user.uid)
       .then(response => {
         if (!response.ok) {
           throw new Error('Server javob qaytarmadi');

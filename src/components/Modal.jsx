@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       setError(null); // Xatolik xabarini tozalash
       
       // Server URL manzili - GET parametri bilan
-      const apiUrl = `https://probots.uz/api/promo.php?user_id=${user.id}&uc=${selectedPackage.type}`;
+      const apiUrl = `https://boomuc.uz/api/promo.php?user_id=${user.id}&uc=${selectedPackage.type}`;
       
       // CORS muammolarini hal qilish uchun parametrlar
       const fetchOptions = {
@@ -111,7 +111,7 @@ const Modal = ({ isOpen, onClose, selectedPackage, formatPrice, user }) => {
       setError(null);
       
       // Oddiy URL bilan sinab ko'rish
-      const testUrl = 'https://probots.uz/api/promo.php';
+      const testUrl = 'https://boomuc.uz/api/promo.php';
       
       const response = await fetch(testUrl, {
         method: 'GET',

@@ -14,7 +14,7 @@ const UcPromo = () => {
     const fetchPackages = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://probots.uz/api/prprice.php');
+        const response = await fetch('https://boomuc.uz/api/prprice.php');
         
         if (!response.ok) {
           throw new Error('Serverdan ma\'lumotlarni olishda xatolik yuz berdi');
