@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 
 const MobileLegends = () => {
+  // State for modal and user data
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [userId, setUserId] = useState('');
+  const [userBalance, setUserBalance] = useState(50000); // Example balance in so'm
+  
   // Diamond packages data
   const diamondPackages = [
     {
@@ -9,6 +15,7 @@ const MobileLegends = () => {
       name: '60 Diamond',
       diamonds: 60,
       price: '12,900 so\'m',
+      priceValue: 12900,
       originalPrice: '15,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
@@ -17,6 +24,7 @@ const MobileLegends = () => {
       name: '120 Diamond',
       diamonds: 120,
       price: '25,800 so\'m',
+      priceValue: 25800,
       originalPrice: '30,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
@@ -25,6 +33,7 @@ const MobileLegends = () => {
       name: '250 Diamond',
       diamonds: 250,
       price: '55,000 so\'m',
+      priceValue: 55000,
       originalPrice: '65,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
@@ -33,6 +42,7 @@ const MobileLegends = () => {
       name: '500 Diamond',
       diamonds: 500,
       price: '105,000 so\'m',
+      priceValue: 105000,
       originalPrice: '120,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
@@ -41,6 +51,7 @@ const MobileLegends = () => {
       name: '1000 Diamond',
       diamonds: 1000,
       price: '210,000 so\'m',
+      priceValue: 210000,
       originalPrice: '250,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
@@ -49,14 +60,47 @@ const MobileLegends = () => {
       name: '2000 Diamond',
       diamonds: 2000,
       price: '420,000 so\'m',
+      priceValue: 420000,
       originalPrice: '500,000 so\'m',
       icon: '/api/placeholder/50/50'
     }
   ];
 
-  const handlePurchase = (packageId) => {
-    console.log(`Purchasing package: ${packageId}`);
-    // Implementation for purchase logic
+  const handlePurchase = (pkg) => {
+    setSelectedPackage(pkg);
+    setShowModal(true);
+  };
+  
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedPackage(null);
+    setUserId('');
+  };
+  
+  const confirmPurchase = () => {
+    if (!userId.trim()) {
+      alert("Iltimos, o'yin ID raqamini kiriting!");
+      return;
+    }
+    
+    if (userBalance < selectedPackage.priceValue) {
+      // User doesn't have enough balance
+      // We'll show the top-up button in the modal
+      return;
+    }
+    
+    // Process purchase
+    setUserBalance(userBalance - selectedPackage.priceValue);
+    alert(`Xaridingiz muvaffaqiyatli yakunlandi!\nHisobingizga ${selectedPackage.diamonds} olmos qo'shiladi.`);
+    closeModal();
+  };
+  
+  const topUpBalance = () => {
+    // Here you would implement your balance top-up logic
+    alert("Hisobni to'ldirish sahifasiga yo'naltirilmoqda...");
+    // For demonstration purposes
+    setUserBalance(userBalance + 100000);
+    closeModal();
   };
 
   return (
@@ -74,6 +118,14 @@ const MobileLegends = () => {
           <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mb-6"></div>
         </div>
 
+        {/* Current Balance */}
+        <div className="bg-white rounded-lg shadow-md p-3 mb-6">
+          <div className="flex justify-between items-center">
+            <div className="text-gray-700">Joriy balans:</div>
+            <div className="font-bold text-green-600">{userBalance.toLocaleString()} so'm</div>
+          </div>
+        </div>
+
         {/* Diamond Packages Grid - 2 columns */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           {diamondPackages.map((pkg) => (
@@ -84,7 +136,7 @@ const MobileLegends = () => {
               <div className="p-3 border-b border-gray-100">
                 <div className="flex items-center justify-center mb-2">
                   <img 
-                    src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
+                    src="/api/placeholder/50/50" 
                     alt="Diamond" 
                     className="h-12 w-12 object-contain"
                   />
@@ -101,7 +153,7 @@ const MobileLegends = () => {
                 </div>
                 
                 <button 
-                  onClick={() => handlePurchase(pkg.id)}
+                  onClick={() => handlePurchase(pkg)}
                   className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
                 >
                   Sotib olish
@@ -148,6 +200,70 @@ const MobileLegends = () => {
           </div>
         </div>
 
+        {/* Purchase Modal */}
+        {showModal && selectedPackage && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg w-full max-w-md p-5">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-gray-800">Olmos xarid qilish</h3>
+                <button 
+                  onClick={closeModal}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-600">Paket:</span>
+                  <span className="font-bold">{selectedPackage.name}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-600">Narxi:</span>
+                  <span className="font-bold text-blue-600">{selectedPackage.price}</span>
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  O'yin ID raqamingiz:
+                </label>
+                <input
+                  type="text"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Masalan: 12345678"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                  required
+                />
+              </div>
+              
+              {userBalance < selectedPackage.priceValue ? (
+                <div className="mb-4 p-3 bg-red-50 rounded-lg text-center">
+                  <p className="text-red-600 mb-2">Hisobingizda yetarli mablag' yo'q!</p>
+                  <p className="text-sm text-gray-600 mb-3">
+                    Joriy balans: <span className="font-bold">{userBalance.toLocaleString()} so'm</span><br/>
+                    Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
+                  </p>
+                  <button
+                    onClick={topUpBalance}
+                    className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                  >
+                    Hisobni to'ldirish
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={confirmPurchase}
+                  className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                >
+                  Tasdiqlash
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
