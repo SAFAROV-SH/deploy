@@ -268,5 +268,4 @@ const MobileLegends = () => {
     </>
   );
 };
-
 export default MobileLegends;
