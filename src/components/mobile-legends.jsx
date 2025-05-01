@@ -234,7 +234,7 @@ const MobileLegends = () => {
                     Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
                   </p>
                   <button
-                    onClick={topUpBalance} // topUpBalance funksiyasini chaqiramiz
+                    onClick={() => window.location.href = "/?route=deposit"} // topUpBalance funksiyasini chaqiramiz
                     className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
                   >
                     Hisobni to'ldirish

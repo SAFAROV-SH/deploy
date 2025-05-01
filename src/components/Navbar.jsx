@@ -51,7 +51,7 @@ const Navbar = () => {
         onClick={() => handleMenuClick('home')}
       >
         <i className="fas fa-gift"></i>
-        <span>Bonus</span>
+        <span>Ruletka</span>
       </button>
       <button 
         className={`nav-item ${activeItem === 'tasks' ? 'active' : ''}`} 
