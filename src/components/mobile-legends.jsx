@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import Header from './Header';
 
 const MobileLegends = () => {
-  // Initial balance - bu yerda default qiymat berdik
-  const initialBalance = user.balance; // Default qiymat
-
   // State for modal and user data
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(initialBalance); // O'zgartirilgan qator
+  const [userBalance, setUserBalance] = useState(user.balance); // O'zgartirilgan qator
   
   // Diamond packages data
   const diamondPackages = [
