@@ -1,319 +1,175 @@
-import React, { useState } from 'react';
-import Header from './Header';
+import { useState, useRef, useEffect } from 'react';
+import Header from './Header'
 
-const Bonus = () => {
-  const [diceValue, setDiceValue] = useState(1);
-  const [isRolling, setIsRolling] = useState(false);
-  const [rotationDeg, setRotationDeg] = useState(0);
-
-  // Roll the dice
-  const rollDice = () => {
-    if (isRolling) return;
+export default function PrizeWheel() {
+  // Define the prizes on the wheel
+  const prizes = [
+    { value: '$10', color: '#3b82f6' },
+    { value: 'ZERO', color: '#38bdf8' },
+    { value: '$2', color: '#7dd3fc' },
+    { value: '$50', color: '#0ea5e9' },
+    { value: '$1', color: '#2563eb' },
+    { value: '$5', color: '#60a5fa' },
+    { value: '$20', color: '#93c5fd' },
+    { value: 'JACKPOT', color: '#a855f7' },
+    { value: '$175', color: '#d946ef' },
+    { value: '$100', color: '#ec4899' },
+    { value: '$15', color: '#f472b6' },
+    { value: '$200', color: '#f43f5e' },
+  ];
+  
+  const [rotation, setRotation] = useState(0);
+  const [spinning, setSpinning] = useState(false);
+  const [winner, setWinner] = useState(null);
+  const [spinButtonDisabled, setSpinButtonDisabled] = useState(false);
+  const spinTimeRef = useRef(null);
+  
+  const spinWheel = () => {
+    if (spinning) return;
     
-    // Set rolling state
-    setIsRolling(true);
+    setSpinButtonDisabled(true);
+    setWinner(null);
+    setSpinning(true);
     
-    // Generate random rotation (multiple of 360 plus some extra for realistic effect)
-    const newRotation = rotationDeg + 1080 + Math.floor(Math.random() * 360);
-    setRotationDeg(newRotation);
+    // Random number of complete rotations plus a random position
+    const spinTime = 5000 + Math.random() * 3000; // 5-8 seconds
+    const totalRotation = rotation + (3600 + Math.floor(Math.random() * 360));
     
-    // Generate random dice value between 1 and 6
-    const randomValue = Math.floor(Math.random() * 4) + 1;
+    spinTimeRef.current = setTimeout(() => {
+      setSpinning(false);
+      
+      // Calculate winner based on final position
+      const degreePerSegment = 360 / prizes.length;
+      const normalizedRotation = totalRotation % 360;
+      const winningIndex = prizes.length - 1 - Math.floor(normalizedRotation / degreePerSegment);
+      const adjustedIndex = winningIndex % prizes.length;
+      
+      setWinner(prizes[adjustedIndex].value);
+      setSpinButtonDisabled(false);
+    }, spinTime);
     
-    // After animation completes
-    setTimeout(() => {
-      setDiceValue(randomValue);
-      setIsRolling(false);
-      // Show alert with dice value
-    }, 2000);
+    setRotation(totalRotation);
   };
+  
+  useEffect(() => {
+    return () => {
+      if (spinTimeRef.current) {
+        clearTimeout(spinTimeRef.current);
+      }
+    };
+  }, []);
 
-  // Dots configuration for dice faces
-  const renderDots = () => {
-    switch(diceValue) {
-      case 1:
-        return <div className="dot center-dot"></div>;
-      case 2:
-        return (
-          <>
-            <div className="dot top-left"></div>
-            <div className="dot bottom-right"></div>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <div className="dot top-left"></div>
-            <div className="dot center-dot"></div>
-            <div className="dot bottom-right"></div>
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <div className="dot top-left"></div>
-            <div className="dot top-right"></div>
-            <div className="dot bottom-left"></div>
-            <div className="dot bottom-right"></div>
-          </>
-        );
-      case 5:
-        return (
-          <>
-            <div className="dot top-left"></div>
-            <div className="dot top-right"></div>
-            <div className="dot center-dot"></div>
-            <div className="dot bottom-left"></div>
-            <div className="dot bottom-right"></div>
-          </>
-        );
-      case 6:
-        return (
-          <>
-            <div className="dot top-left"></div>
-            <div className="dot top-right"></div>
-            <div className="dot middle-left"></div>
-            <div className="dot middle-right"></div>
-            <div className="dot bottom-left"></div>
-            <div className="dot bottom-right"></div>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
+  // Calculate segments for SVG rendering
+  const segments = prizes.map((prize, index) => {
+    const angle = 360 / prizes.length;
+    const startAngle = index * angle;
+    const endAngle = (index + 1) * angle;
+    
+    // Convert angles to radians
+    const startRad = (startAngle - 90) * Math.PI / 180;
+    const endRad = (endAngle - 90) * Math.PI / 180;
+    
+    // Calculate points
+    const x1 = 150 + 150 * Math.cos(startRad);
+    const y1 = 150 + 150 * Math.sin(startRad);
+    const x2 = 150 + 150 * Math.cos(endRad);
+    const y2 = 150 + 150 * Math.sin(endRad);
+    
+    // Path for segment
+    const largeArcFlag = angle > 180 ? 1 : 0;
+    const path = `M 150 150 L ${x1} ${y1} A 150 150 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
+    
+    // Calculate text position (halfway between center and edge)
+    const textAngle = startAngle + angle / 2;
+    const textRad = (textAngle - 90) * Math.PI / 180;
+    const textX = 150 + 90 * Math.cos(textRad);
+    const textY = 150 + 90 * Math.sin(textRad);
+    
+    return {
+      path,
+      color: prize.color,
+      value: prize.value,
+      textX,
+      textY,
+      textAngle
+    };
+  });
 
   return (
     <>
     <Header />
-    <div className="dice-game-container">
-      <div className="game-header">
-        <h1 className="app-title">Dice Game</h1>
-      </div>
-      
-      <div className="dice-game-content">
-        <h2 className="game-title">Random Dice Game</h2>
-        
-        {/* Removed the extra wrapper div around dice */}
-        <div 
-          className="dice"
-          style={{
-            transform: `rotate(${rotationDeg}deg)`,
-            transition: isRolling ? 'transform 2s cubic-bezier(0.18, 0.89, 0.32, 1.28)' : 'none'
-          }}
-        >
-          {renderDots()}
+    <div className="flex flex-col items-center justify-center p-4 bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl shadow-xl">
+      <div className="relative w-80 h-80">
+        {/* Wheel Container with Shadow */}
+        <div className="absolute inset-0 rounded-full shadow-2xl flex items-center justify-center">
+          {/* SVG Wheel */}
+          <svg 
+            width="300" 
+            height="300" 
+            viewBox="0 0 300 300" 
+            className="w-full h-full transition-transform duration-5000"
+            style={{ 
+              transform: `rotate(${rotation}deg)`,
+              transition: spinning ? `transform ${spinning ? '5s' : '0s'} cubic-bezier(0.2, 0.8, 0.3, 1)` : 'none'
+            }}
+          >
+            {/* Golden Circle Border */}
+            <circle cx="150" cy="150" r="149" fill="none" stroke="#F1BE48" strokeWidth="8" />
+            
+            {/* Wheel Segments */}
+            {segments.map((segment, index) => (
+              <g key={index}>
+                <path 
+                  d={segment.path} 
+                  fill={segment.color}
+                  stroke="#ffffff" 
+                  strokeWidth="2"
+                />
+                <text
+                  x={segment.textX}
+                  y={segment.textY}
+                  fill="white"
+                  fontWeight="bold"
+                  fontSize="16"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  transform={`rotate(${90 + segment.textAngle}, ${segment.textX}, ${segment.textY})`}
+                  style={{ filter: 'drop-shadow(1px 1px 1px rgba(0,0,0,0.5))' }}
+                >
+                  {segment.value}
+                </text>
+              </g>
+            ))}
+            
+            {/* Central Circle */}
+            <circle cx="150" cy="150" r="20" fill="#F1BE48" stroke="#E9A800" strokeWidth="4" />
+          </svg>
         </div>
         
-        <button
-          onClick={rollDice}
-          disabled={isRolling}
-          className={`roll-button ${isRolling ? 'rolling' : ''}`}
-        >
-          {isRolling ? 'Rolling...' : 'Roll Dice'}
-        </button>
+        {/* Outer blue border */}
+        <div className="absolute inset-0 rounded-full border-8 border-blue-600 pointer-events-none"></div>
+        
+        {/* Arrow/Marker */}
+        <div className="absolute w-10 h-10 bg-yellow-500 rotate-45 transform -translate-x-1/2 left-1/2 -top-2 z-10 border-2 border-yellow-600 shadow-md"></div>
       </div>
       
-      <style jsx>{`
-        /* Main container */
-        .dice-game-container {
-          background: #ffffff;
-          min-height: 80vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          padding: 20px;
-          font-family: 'Arial', sans-serif;
-        }
+      <div className="mt-8 flex flex-col items-center">
+        <button
+          onClick={spinWheel}
+          disabled={spinButtonDisabled}
+          className={`px-8 py-4 rounded-full text-xl font-bold text-white ${spinButtonDisabled ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} transition-colors shadow-lg`}
+        >
+          {spinning ? 'Spinning...' : 'SPIN'}
+        </button>
         
-        /* Header styling */
-        .game-header {
-          width: 100%;
-          padding: 15px 0;
-          margin-bottom: 30px;
-          text-align: center;
-          background-color: #f0f0f0;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .app-title {
-          margin: 0;
-          color: #333;
-          font-size: 1.8rem;
-        }
-        
-        /* Content wrapper */
-        .dice-game-content {
-          width: 100%;
-          max-width: 500px;
-          margin: 20px auto;
-          text-align: center;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        /* Game title */
-        .game-title {
-          font-size: 2rem;
-          font-weight: bold;
-          margin-bottom: 40px;
-          color: #333;
-        }
-        
-        /* Dice styling - simplified, removed extra containers */
-        .dice {
-          background-color: #e74c3c;
-          border-radius: 16px;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-          width: 120px;
-          height: 120px;
-          display: inline-block;
-          position: relative;
-          margin-bottom: 60px;
-          perspective: 1000px;
-        }
-        
-        /* Individual dot styling */
-        .dot {
-          position: absolute;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background-color: white;
-          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Dot positions */
-        .center-dot {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
-        
-        .top-left {
-          top: 15%;
-          left: 15%;
-        }
-        
-        .top-right {
-          top: 15%;
-          right: 15%;
-        }
-        
-        .middle-left {
-          top: 50%;
-          left: 15%;
-          transform: translateY(-50%);
-        }
-        
-        .middle-right {
-          top: 50%;
-          right: 15%;
-          transform: translateY(-50%);
-        }
-        
-        .bottom-left {
-          bottom: 15%;
-          left: 15%;
-        }
-        
-        .bottom-right {
-          bottom: 15%;
-          right: 15%;
-        }
-        
-        /* Roll button */
-        .roll-button {
-          padding: 16px 32px;
-          border-radius: 50px;
-          font-size: 1.2rem;
-          font-weight: bold;
-          color: white;
-          background: #3498db;
-          border: none;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
-          transition: all 0.3s ease;
-          outline: none;
-        }
-        
-        .roll-button:hover:not(.rolling) {
-          transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
-          background: #2980b9;
-        }
-        
-        .roll-button:active:not(.rolling) {
-          transform: translateY(-1px);
-        }
-        
-        .roll-button.rolling {
-          background: #95a5a6;
-          cursor: not-allowed;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-          color: #ddd;
-        }
-        
-        /* Mobile responsiveness */
-        @media screen and (max-width: 600px) {
-          .app-title {
-            font-size: 1.6rem;
-          }
-          
-          .game-title {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-          }
-          
-          .dice {
-            width: 100px;
-            height: 100px;
-          }
-          
-          .dot {
-            width: 14px;
-            height: 14px;
-          }
-          
-          .roll-button {
-            padding: 14px 28px;
-            font-size: 1.1rem;
-          }
-        }
-        
-        @media screen and (max-width: 400px) {
-          .app-title {
-            font-size: 1.4rem;
-          }
-          
-          .game-title {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-          }
-          
-          .dice {
-            width: 90px;
-            height: 90px;
-          }
-          
-          .dot {
-            width: 12px;
-            height: 12px;
-          }
-          
-          .roll-button {
-            padding: 12px 24px;
-            font-size: 1rem;
-          }
-        }
-      `}</style>
+        {winner && (
+          <div className="mt-4 p-3 bg-white rounded-lg shadow-md border-2 border-blue-300">
+            <div className="text-lg font-semibold text-gray-700">You won:</div>
+            <div className="text-3xl mt-1 font-bold text-blue-600">{winner}</div>
+          </div>
+        )}
+      </div>
     </div>
     </>
   );
-};
-
-export default Bonus;
+}
