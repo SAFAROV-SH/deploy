@@ -99,8 +99,9 @@ export default function PrizeWheel() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white overflow-hidden">
+    <>
       <Header />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white overflow-hidden">
       <div className="flex flex-col items-center justify-center w-full max-w-full px-4 py-8 relative">
         <div className="relative w-full aspect-square max-w-xs mx-auto">
           {/* Top indicator triangle marker - with corrected direction */}
@@ -194,5 +195,6 @@ export default function PrizeWheel() {
         )}
       </div>
     </div>
+    </>
   );
 }
