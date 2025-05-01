@@ -22,6 +22,7 @@ export default function PrizeWheel() {
   const [spinning, setSpinning] = useState(false);
   const [winner, setWinner] = useState(null);
   const [spinButtonDisabled, setSpinButtonDisabled] = useState(false);
+  const [showWinnerAlert, setShowWinnerAlert] = useState(false);
   const spinTimeRef = useRef(null);
   
   const spinWheel = () => {
@@ -29,6 +30,7 @@ export default function PrizeWheel() {
     
     setSpinButtonDisabled(true);
     setWinner(null);
+    setShowWinnerAlert(false);
     setSpinning(true);
     
     // Random number of complete rotations plus a random position
@@ -45,6 +47,7 @@ export default function PrizeWheel() {
       const adjustedIndex = winningIndex % prizes.length;
       
       setWinner(prizes[adjustedIndex].value);
+      setShowWinnerAlert(true);
       setSpinButtonDisabled(false);
     }, spinTime);
     
@@ -96,80 +99,102 @@ export default function PrizeWheel() {
   });
 
   return (
-    <>
-    <Header />
-    <div className="flex flex-col items-center justify-center p-4 bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl shadow-xl">
-      <div className="relative w-80 h-80">
-        {/* Wheel Container with Shadow */}
-        <div className="absolute inset-0 rounded-full shadow-2xl flex items-center justify-center">
-          {/* SVG Wheel */}
-          <svg 
-            width="300" 
-            height="300" 
-            viewBox="0 0 300 300" 
-            className="w-full h-full transition-transform duration-5000"
-            style={{ 
-              transform: `rotate(${rotation}deg)`,
-              transition: spinning ? `transform ${spinning ? '5s' : '0s'} cubic-bezier(0.2, 0.8, 0.3, 1)` : 'none'
-            }}
-          >
-            {/* Golden Circle Border */}
-            <circle cx="150" cy="150" r="149" fill="none" stroke="#F1BE48" strokeWidth="8" />
-            
-            {/* Wheel Segments */}
-            {segments.map((segment, index) => (
-              <g key={index}>
-                <path 
-                  d={segment.path} 
-                  fill={segment.color}
-                  stroke="#ffffff" 
-                  strokeWidth="2"
-                />
-                <text
-                  x={segment.textX}
-                  y={segment.textY}
-                  fill="white"
-                  fontWeight="bold"
-                  fontSize="16"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  transform={`rotate(${90 + segment.textAngle}, ${segment.textX}, ${segment.textY})`}
-                  style={{ filter: 'drop-shadow(1px 1px 1px rgba(0,0,0,0.5))' }}
-                >
-                  {segment.value}
-                </text>
-              </g>
-            ))}
-            
-            {/* Central Circle */}
-            <circle cx="150" cy="150" r="20" fill="#F1BE48" stroke="#E9A800" strokeWidth="4" />
-          </svg>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <Header />
+      <div className="flex flex-col items-center justify-center w-full max-w-md px-4 py-8">
+        <div className="relative w-full aspect-square max-w-xs">
+          {/* Wheel Container with Shadow */}
+          <div className="absolute inset-0 rounded-full shadow-xl flex items-center justify-center">
+            {/* SVG Wheel */}
+            <svg 
+              width="300" 
+              height="300" 
+              viewBox="0 0 300 300" 
+              className="w-full h-full"
+              style={{ 
+                transform: `rotate(${rotation}deg)`,
+                transition: spinning ? `transform ${spinning ? '5s' : '0s'} cubic-bezier(0.2, 0.8, 0.3, 1)` : 'none'
+              }}
+            >
+              {/* Golden Circle Border */}
+              <circle cx="150" cy="150" r="149" fill="none" stroke="#F1BE48" strokeWidth="8" />
+              
+              {/* Wheel Segments */}
+              {segments.map((segment, index) => (
+                <g key={index}>
+                  <path 
+                    d={segment.path} 
+                    fill={segment.color}
+                    stroke="#ffffff" 
+                    strokeWidth="2"
+                  />
+                  <text
+                    x={segment.textX}
+                    y={segment.textY}
+                    fill="white"
+                    fontWeight="bold"
+                    fontSize="16"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    transform={`rotate(${90 + segment.textAngle}, ${segment.textX}, ${segment.textY})`}
+                    style={{ filter: 'drop-shadow(1px 1px 1px rgba(0,0,0,0.5))' }}
+                  >
+                    {segment.value}
+                  </text>
+                </g>
+              ))}
+              
+              {/* Central Circle */}
+              <circle cx="150" cy="150" r="20" fill="#F1BE48" stroke="#E9A800" strokeWidth="4" />
+            </svg>
+          </div>
+          
+          {/* Outer blue border */}
+          <div className="absolute inset-0 rounded-full border-8 border-blue-600 pointer-events-none"></div>
+          
+          {/* Triangle Marker (pointing downward) */}
+          <div className="absolute w-0 h-0 
+                         border-l-8 border-r-8 border-t-16 
+                         border-l-transparent border-r-transparent border-t-yellow-500
+                         transform -translate-x-1/2 left-1/2 -bottom-4 z-10
+                         filter drop-shadow-md">
+          </div>
         </div>
         
-        {/* Outer blue border */}
-        <div className="absolute inset-0 rounded-full border-8 border-blue-600 pointer-events-none"></div>
+        <div className="mt-8 flex flex-col items-center w-full">
+          <button
+            onClick={spinWheel}
+            disabled={spinButtonDisabled}
+            className={`px-8 py-4 rounded-full text-xl font-bold text-white ${spinButtonDisabled ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} transition-colors shadow-lg w-full max-w-xs`}
+          >
+            {spinning ? 'Spinning...' : 'SPIN'}
+          </button>
+        </div>
         
-        {/* Arrow/Marker */}
-        <div className="absolute w-10 h-10 bg-yellow-500 rotate-45 transform -translate-x-1/2 left-1/2 -top-2 z-10 border-2 border-yellow-600 shadow-md"></div>
-      </div>
-      
-      <div className="mt-8 flex flex-col items-center">
-        <button
-          onClick={spinWheel}
-          disabled={spinButtonDisabled}
-          className={`px-8 py-4 rounded-full text-xl font-bold text-white ${spinButtonDisabled ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} transition-colors shadow-lg`}
-        >
-          {spinning ? 'Spinning...' : 'SPIN'}
-        </button>
-        
-        {winner && (
-          <div className="mt-4 p-3 bg-white rounded-lg shadow-md border-2 border-blue-300">
-            <div className="text-lg font-semibold text-gray-700">You won:</div>
-            <div className="text-3xl mt-1 font-bold text-blue-600">{winner}</div>
+        {/* Winner Alert Modal */}
+        {showWinnerAlert && winner && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-xs transform transition-all animate-bounce-once">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-700">Congratulations!</h3>
+                <div className="mt-2 text-3xl font-bold text-blue-600">{winner}</div>
+                <p className="mt-1 text-sm text-gray-500">You won this prize!</p>
+                <button 
+                  onClick={() => setShowWinnerAlert(false)}
+                  className="mt-6 px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors w-full"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
     </div>
-    </>
   );
 }
