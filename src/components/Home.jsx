@@ -99,10 +99,18 @@ export default function PrizeWheel() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white overflow-hidden">
       <Header />
-      <div className="flex flex-col items-center justify-center w-full max-w-md px-4 py-8">
-        <div className="relative w-full aspect-square max-w-xs">
+      <div className="flex flex-col items-center justify-center w-full max-w-full px-4 py-8">
+        <div className="relative w-full aspect-square max-w-xs mx-auto">
+          {/* Triangle Marker at the top */}
+          <div className="absolute w-0 h-0 
+                         border-l-8 border-r-8 border-b-16 
+                         border-l-transparent border-r-transparent border-b-yellow-500
+                         transform -translate-x-1/2 left-1/2 -top-4 z-10
+                         filter drop-shadow-md">
+          </div>
+          
           {/* Wheel Container with Shadow */}
           <div className="absolute inset-0 rounded-full shadow-xl flex items-center justify-center">
             {/* SVG Wheel */}
@@ -117,7 +125,7 @@ export default function PrizeWheel() {
               }}
             >
               {/* Golden Circle Border */}
-              <circle cx="150" cy="150" r="149" fill="none" stroke="#F1BE48" strokeWidth="8" />
+              <circle cx="150" cy="150" r="149" fill="none" stroke="#fff" strokeWidth="8" />
               
               {/* Wheel Segments */}
               {segments.map((segment, index) => (
@@ -151,14 +159,6 @@ export default function PrizeWheel() {
           
           {/* Outer blue border */}
           <div className="absolute inset-0 rounded-full border-8 border-blue-600 pointer-events-none"></div>
-          
-          {/* Triangle Marker (pointing downward) */}
-          <div className="absolute w-0 h-0 
-                         border-l-8 border-r-8 border-t-16 
-                         border-l-transparent border-r-transparent border-t-yellow-500
-                         transform -translate-x-1/2 left-1/2 -bottom-4 z-10
-                         filter drop-shadow-md">
-          </div>
         </div>
         
         <div className="mt-8 flex flex-col items-center w-full">
