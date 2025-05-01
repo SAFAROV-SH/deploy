@@ -101,14 +101,15 @@ export default function PrizeWheel() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white overflow-hidden">
       <Header />
-      <div className="flex flex-col items-center justify-center w-full max-w-full px-4 py-8">
+      <div className="flex flex-col items-center justify-center w-full max-w-full px-4 py-8 relative">
         <div className="relative w-full aspect-square max-w-xs mx-auto">
-          {/* Triangle Marker at the top */}
-          <div className="absolute w-0 h-0 
-                         border-l-8 border-r-8 border-b-16 
-                         border-l-transparent border-r-transparent border-b-yellow-500
-                         transform -translate-x-1/2 left-1/2 -top-4 z-10
-                         filter drop-shadow-md">
+          {/* Top indicator triangle marker */}
+          <div className="absolute w-8 h-10 top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 z-20">
+            <div className="w-0 h-0 
+                           border-l-[16px] border-r-[16px] border-b-[28px] 
+                           border-l-transparent border-r-transparent border-b-red-600
+                           mx-auto filter drop-shadow-lg">
+            </div>
           </div>
           
           {/* Wheel Container with Shadow */}
@@ -159,6 +160,15 @@ export default function PrizeWheel() {
           
           {/* Outer blue border */}
           <div className="absolute inset-0 rounded-full border-8 border-blue-600 pointer-events-none"></div>
+          
+          {/* Bottom triangle marker (indicator for winning segment) */}
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 z-20">
+            <div className="w-0 h-0 
+                           border-l-[14px] border-r-[14px] border-t-[20px] 
+                           border-l-transparent border-r-transparent border-t-red-600
+                           filter drop-shadow-lg">
+            </div>
+          </div>
         </div>
         
         <div className="mt-8 flex flex-col items-center w-full">
