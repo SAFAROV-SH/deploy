@@ -43,6 +43,7 @@ fetch('https://boomuc.uz/api/main.php?uid=' + userI, { method: 'GET' })
         uid: 1,
         change(balanc){
 this.balance = balanc;
+localStorage.setItem('balance', balanc);
         },
         balpl(sum){
 this.balance = parseInt(this.balance)+parseInt(sum);
