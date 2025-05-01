@@ -6,7 +6,7 @@ const MobileLegends = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(user.balance); // O'zgartirilgan qator
+  const [userBalance, setUserBalance] = useState(20); // O'zgartirilgan qator
   
   // Diamond packages data
   const diamondPackages = [
