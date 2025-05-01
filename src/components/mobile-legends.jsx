@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Header from './Header';
 
 const MobileLegends = () => {
@@ -6,7 +7,19 @@ const MobileLegends = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0); // O'zgartirilgan qator
+  const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0);
+  const [balanceChanged, setBalanceChanged] = useState(false);
+  
+  // Effect to animate balance when it changes
+  useEffect(() => {
+    if (userBalance !== (localStorage.getItem('balance') ?? 0)) {
+      setBalanceChanged(true);
+      const timer = setTimeout(() => {
+        setBalanceChanged(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [userBalance]);
   
   // Diamond packages data
   const diamondPackages = [
@@ -118,11 +131,31 @@ const MobileLegends = () => {
           <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mb-6"></div>
         </div>
 
-        {/* Current Balance */}
+        {/* Current Balance with Animation */}
         <div className="bg-white rounded-lg shadow-md p-3 mb-6">
           <div className="flex justify-between items-center">
             <div className="text-gray-700">Joriy balans:</div>
-            <div className="font-bold text-green-600">{userBalance.toLocaleString()} so'm</div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={userBalance}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  scale: balanceChanged ? [1, 1.1, 1] : 1,
+                  color: balanceChanged ? ["#16a34a", "#3b82f6", "#16a34a"] : "#16a34a"
+                }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ 
+                  duration: 0.5,
+                  scale: { duration: 0.7 },
+                  color: { duration: 0.8 }
+                }}
+                className="font-bold text-green-600"
+              >
+                {parseInt(userBalance).toLocaleString()} so'm
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
@@ -230,11 +263,11 @@ const MobileLegends = () => {
                 <div className="mb-4 p-3 bg-red-50 rounded-lg text-center">
                   <p className="text-red-600 mb-2">Hisobingizda yetarli mablag' yo'q!</p>
                   <p className="text-sm text-gray-600 mb-3">
-                    Joriy balans: <span className="font-bold">{userBalance.toLocaleString()} so'm</span><br/>
+                    Joriy balans: <span className="font-bold">{parseInt(userBalance).toLocaleString()} so'm</span><br/>
                     Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
                   </p>
                   <button
-                    onClick={topUpBalance} // topUpBalance funksiyasini chaqiramiz
+                    onClick={topUpBalance}
                     className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
                   >
                     Hisobni to'ldirish
