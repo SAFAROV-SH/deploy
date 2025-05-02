@@ -15,7 +15,7 @@ const MobileLegends = () => {
   // Diamond packages data with numeric IDs
   const diamondPackages = async ()=>{
     let request = await fetch('https://boomuc.uz/api/mobile-legends.php?type=all');
-    let response = request.json();
+    let response = await request.json();
     return response;
   };
 
