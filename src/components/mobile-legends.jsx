@@ -8,6 +8,10 @@ const MobileLegends = () => {
   const [userId, setUserId] = useState('');
   const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0);
   
+  // State for modals
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  
   // Diamond packages data with numeric IDs
   const diamondPackages = [
     {
@@ -84,10 +88,6 @@ const MobileLegends = () => {
     setShowErrorModal(false);
   };
   
-  // State for modals
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  
   const confirmPurchase = async () => {
     if (!userId.trim()) {
       alert("Iltimos, o'yin ID raqamini kiriting!");
@@ -131,7 +131,6 @@ const MobileLegends = () => {
       closeModal();
       setShowErrorModal(true);
     }
-  };
   };
   
   const topUpBalance = () => {
@@ -368,5 +367,6 @@ const MobileLegends = () => {
       </div>
     </>
   );
+};
 
 export default MobileLegends;
