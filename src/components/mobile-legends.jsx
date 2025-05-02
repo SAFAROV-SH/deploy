@@ -6,65 +6,64 @@ const MobileLegends = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [userId, setUserId] = useState('');
-  const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0); // O'zgartirilgan qator
+  const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0);
   
-  // Diamond packages data
+  // Diamond packages data with numeric IDs
   const diamondPackages = [
     {
-      id: 'small',
+      id: 1,
       name: '60 Diamond',
       diamonds: 60,
-      price: '12,900 so\'m',
       priceValue: 12900,
       originalPrice: '15,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
     {
-      id: 'medium',
+      id: 2,
       name: '120 Diamond',
       diamonds: 120,
-      price: '25,800 so\'m',
       priceValue: 25800,
       originalPrice: '30,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
     {
-      id: 'large',
+      id: 3,
       name: '250 Diamond',
       diamonds: 250,
-      price: '55,000 so\'m',
       priceValue: 55000,
       originalPrice: '65,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
     {
-      id: 'xl',
+      id: 4,
       name: '500 Diamond',
       diamonds: 500,
-      price: '105,000 so\'m',
       priceValue: 105000,
       originalPrice: '120,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
     {
-      id: 'xxl',
+      id: 5,
       name: '1000 Diamond',
       diamonds: 1000,
-      price: '210,000 so\'m',
       priceValue: 210000,
       originalPrice: '250,000 so\'m',
       icon: '/api/placeholder/50/50'
     },
     {
-      id: 'xxxl',
+      id: 6,
       name: '2000 Diamond',
       diamonds: 2000,
-      price: '420,000 so\'m',
       priceValue: 420000,
       originalPrice: '500,000 so\'m',
       icon: '/api/placeholder/50/50'
     }
   ];
+
+  // Format price for display
+  const formatPrice = (price) => {
+    return `${price.toLocaleString()} so'm`;
+  };
 
   const handlePurchase = (pkg) => {
     setSelectedPackage(pkg);
@@ -77,7 +76,7 @@ const MobileLegends = () => {
     setUserId('');
   };
   
-  const confirmPurchase = () => {
+  const confirmPurchase = async () => {
     if (!userId.trim()) {
       alert("Iltimos, o'yin ID raqamini kiriting!");
       return;
@@ -89,10 +88,31 @@ const MobileLegends = () => {
       return;
     }
     
-    // Process purchase
-    setUserBalance(userBalance - selectedPackage.priceValue);
-    alert(`Xaridingiz muvaffaqiyatli yakunlandi!\nHisobingizga ${selectedPackage.diamonds} olmos qo'shiladi.`);
-    closeModal();
+    try {
+      // Send request to API
+      const response = await fetch('https://boomuc.uz/api/mobile-legends.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          paket_id: selectedPackage.id
+        }),
+      });
+      
+      if (response.ok) {
+        // Process purchase
+        setUserBalance(userBalance - selectedPackage.priceValue);
+        alert(`Xaridingiz muvaffaqiyatli yakunlandi!\nHisobingizga ${selectedPackage.diamonds} olmos qo'shiladi.`);
+        closeModal();
+      } else {
+        alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+      }
+    } catch (error) {
+      alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+      console.error("Purchase error:", error);
+    }
   };
   
   const topUpBalance = () => {
@@ -122,7 +142,7 @@ const MobileLegends = () => {
         <div className="bg-white rounded-lg shadow-md p-3 mb-6">
           <div className="flex justify-between items-center">
             <div className="text-gray-700">Joriy balans:</div>
-            <div className="font-bold text-green-600">{userBalance.toLocaleString()} so'm</div>
+            <div className="font-bold text-green-600">{Number(userBalance).toLocaleString()} so'm</div>
           </div>
         </div>
 
@@ -148,7 +168,7 @@ const MobileLegends = () => {
               
               <div className="p-3 text-center">
                 <div className="mb-2">
-                  <div className="text-gray-800 font-bold">{pkg.price}</div>
+                  <div className="text-gray-800 font-bold">{formatPrice(pkg.priceValue)}</div>
                   <div className="text-gray-400 text-xs line-through">{pkg.originalPrice}</div>
                 </div>
                 
@@ -221,20 +241,20 @@ const MobileLegends = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Narxi:</span>
-                  <span className="font-bold text-blue-600">{selectedPackage.price}</span>
+                  <span className="font-bold text-blue-600">{formatPrice(selectedPackage.priceValue)}</span>
                 </div>
               </div>
               
 
-              {userBalance < selectedPackage.priceValue ? (
+              {Number(userBalance) < selectedPackage.priceValue ? (
                 <div className="mb-4 p-3 bg-red-50 rounded-lg text-center">
                   <p className="text-red-600 mb-2">Hisobingizda yetarli mablag' yo'q!</p>
                   <p className="text-sm text-gray-600 mb-3">
-                    Joriy balans: <span className="font-bold">{userBalance.toLocaleString()} so'm</span><br/>
+                    Joriy balans: <span className="font-bold">{Number(userBalance).toLocaleString()} so'm</span><br/>
                     Kerak: <span className="font-bold">{selectedPackage.priceValue.toLocaleString()} so'm</span>
                   </p>
                   <button
-                    onClick={() => window.location.href = "/?route=deposit"} // topUpBalance funksiyasini chaqiramiz
+                    onClick={() => window.location.href = "/?route=deposit"}
                     className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded transition-colors duration-200"
                   >
                     Hisobni to'ldirish
