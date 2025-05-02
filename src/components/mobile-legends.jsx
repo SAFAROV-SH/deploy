@@ -80,8 +80,13 @@ const MobileLegends = () => {
     setShowSuccessModal(false);
   };
   
-  // State for success modal
+  const closeErrorModal = () => {
+    setShowErrorModal(false);
+  };
+  
+  // State for modals
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   
   const confirmPurchase = async () => {
     if (!userId.trim()) {
@@ -109,18 +114,22 @@ const MobileLegends = () => {
         }),
       });
       
+      closeModal();
+      
       if (response.ok) {
         // Process purchase
         setUserBalance(userBalance - selectedPackage.priceValue);
-        closeModal();
         // Show success modal
         setShowSuccessModal(true);
       } else {
-        alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+        // Show error modal
+        setShowErrorModal(true);
       }
     } catch (error) {
-      alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+      // Network or other error
       console.error("Purchase error:", error);
+      closeModal();
+      setShowErrorModal(true);
     }
   };
   };
@@ -320,6 +329,36 @@ const MobileLegends = () => {
               <button
                 onClick={closeSuccessModal}
                 className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded transition-colors duration-200"
+              >
+                Yopish
+              </button>
+            </div>
+          </div>
+        )}
+        
+        {/* Error Modal */}
+        {showErrorModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg w-full max-w-md p-5 text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Xatolik yuz berdi!</h3>
+              
+              <p className="text-gray-600 mb-6">
+                Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring yoki yordam uchun bizga murojaat qiling.
+              </p>
+              
+              <button
+                onClick={closeErrorModal}
+                className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded transition-colors duration-200"
               >
                 Yopish
               </button>
