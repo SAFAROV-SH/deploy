@@ -76,6 +76,13 @@ const MobileLegends = () => {
     setUserId('');
   };
   
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false);
+  };
+  
+  // State for success modal
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
   const confirmPurchase = async () => {
     if (!userId.trim()) {
       alert("Iltimos, o'yin ID raqamini kiriting!");
@@ -105,8 +112,9 @@ const MobileLegends = () => {
       if (response.ok) {
         // Process purchase
         setUserBalance(userBalance - selectedPackage.priceValue);
-        alert(`Xaridingiz muvaffaqiyatli yakunlandi!\nHisobingizga ${selectedPackage.diamonds} olmos qo'shiladi.`);
         closeModal();
+        // Show success modal
+        setShowSuccessModal(true);
       } else {
         alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       }
@@ -114,6 +122,7 @@ const MobileLegends = () => {
       alert("Xarid jarayonida xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       console.error("Purchase error:", error);
     }
+  };
   };
   
   const topUpBalance = () => {
@@ -287,9 +296,38 @@ const MobileLegends = () => {
             </div>
           </div>
         )}
+        
+        {/* Success Modal */}
+        {showSuccessModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg w-full max-w-md p-5 text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Xaridingiz muvaffaqiyatli yakunlandi!</h3>
+              
+              <p className="text-gray-600 mb-6">
+                Olmoslar 24 soat ichida hisobingizga tushiriladi. Xaridingiz uchun rahmat!
+              </p>
+              
+              <button
+                onClick={closeSuccessModal}
+                className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded transition-colors duration-200"
+              >
+                Yopish
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
-};
 
 export default MobileLegends;
