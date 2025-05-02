@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 
 const MobileLegends = () => {
@@ -8,16 +8,33 @@ const MobileLegends = () => {
   const [userId, setUserId] = useState('');
   const [userBalance, setUserBalance] = useState(localStorage.getItem('balance') ?? 0);
   
+  // State for packages data
+  const [diamondPackages, setDiamondPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   // State for modals
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   
-  // Diamond packages data with numeric IDs
-  const diamondPackages = async ()=>{
-    let request = await fetch('https://boomuc.uz/api/mobile-legends.php?type=all');
-    let response = await request.json();
-    return response;
-  };
+  // Fetch diamond packages data on component mount
+  useEffect(() => {
+    const fetchDiamondPackages = async () => {
+      try {
+        setLoading(true);
+        const request = await fetch('https://boomuc.uz/api/mobile-legends.php?type=all');
+        const response = await request.json();
+        setDiamondPackages(response);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching diamond packages:", err);
+        setError("Paketlarni yuklashda xatolik yuz berdi");
+        setLoading(false);
+      }
+    };
+    
+    fetchDiamondPackages();
+  }, []);
 
   // Format price for display
   const formatPrice = (price) => {
@@ -74,6 +91,7 @@ const MobileLegends = () => {
       if (response.ok) {
         // Process purchase
         setUserBalance(userBalance - selectedPackage.priceValue);
+        localStorage.setItem('balance', userBalance - selectedPackage.priceValue);
         // Show success modal
         setShowSuccessModal(true);
       } else {
@@ -86,14 +104,6 @@ const MobileLegends = () => {
       closeModal();
       setShowErrorModal(true);
     }
-  };
-  
-  const topUpBalance = () => {
-    // Here you would implement your balance top-up logic
-    alert("Hisobni to'ldirish sahifasiga yo'naltirilmoqda...");
-    // For demonstration purposes
-    setUserBalance(userBalance + 100000);
-    closeModal();
   };
 
   return (
@@ -119,42 +129,65 @@ const MobileLegends = () => {
           </div>
         </div>
 
-        {/* Diamond Packages Grid - 2 columns */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {diamondPackages.map((pkg) => (
-            <div 
-              key={pkg.id} 
-              className="bg-white rounded-lg overflow-hidden shadow-md"
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-6">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-3"></div>
+            <p className="text-gray-600">Ma'lumotlar yuklanmoqda...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-50 p-4 rounded-lg text-center mb-6">
+            <p className="text-red-600">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="mt-2 py-2 px-4 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded transition-colors duration-200"
             >
-              <div className="p-3 border-b border-gray-100">
-                <div className="flex items-center justify-center mb-2">
-                  <img 
-                    src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
-                    alt="Diamond" 
-                    className="h-12 w-12 object-contain"
-                  />
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">{pkg.diamonds}</div>
-                </div>
-              </div>
-              
-              <div className="p-3 text-center">
-                <div className="mb-2">
-                  <div className="text-gray-800 font-bold">{formatPrice(pkg.priceValue)}</div>
-                  <div className="text-gray-400 text-xs line-through">{pkg.originalPrice}</div>
+              Qayta urinish
+            </button>
+          </div>
+        )}
+
+        {/* Diamond Packages Grid - 2 columns */}
+        {!loading && !error && (
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {diamondPackages.map((pkg) => (
+              <div 
+                key={pkg.id} 
+                className="bg-white rounded-lg overflow-hidden shadow-md"
+              >
+                <div className="p-3 border-b border-gray-100">
+                  <div className="flex items-center justify-center mb-2">
+                    <img 
+                      src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-blue-shiny-clear-diamond-realistic-illustration-png-image_6944721.png" 
+                      alt="Diamond" 
+                      className="h-12 w-12 object-contain"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-gray-900">{pkg.diamonds}</div>
+                  </div>
                 </div>
                 
-                <button 
-                  onClick={() => handlePurchase(pkg)}
-                  className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
-                >
-                  Sotib olish
-                </button>
+                <div className="p-3 text-center">
+                  <div className="mb-2">
+                    <div className="text-gray-800 font-bold">{formatPrice(pkg.priceValue)}</div>
+                    <div className="text-gray-400 text-xs line-through">{pkg.originalPrice}</div>
+                  </div>
+                  
+                  <button 
+                    onClick={() => handlePurchase(pkg)}
+                    className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                  >
+                    Sotib olish
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* How To Purchase */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
