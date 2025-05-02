@@ -13,56 +13,11 @@ const MobileLegends = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   
   // Diamond packages data with numeric IDs
-  const diamondPackages = [
-    {
-      id: 1,
-      name: '60 Diamond',
-      diamonds: 60,
-      priceValue: 12900,
-      originalPrice: '15,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    },
-    {
-      id: 2,
-      name: '120 Diamond',
-      diamonds: 120,
-      priceValue: 25800,
-      originalPrice: '30,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    },
-    {
-      id: 3,
-      name: '250 Diamond',
-      diamonds: 250,
-      priceValue: 55000,
-      originalPrice: '65,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    },
-    {
-      id: 4,
-      name: '500 Diamond',
-      diamonds: 500,
-      priceValue: 105000,
-      originalPrice: '120,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    },
-    {
-      id: 5,
-      name: '1000 Diamond',
-      diamonds: 1000,
-      priceValue: 210000,
-      originalPrice: '250,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    },
-    {
-      id: 6,
-      name: '2000 Diamond',
-      diamonds: 2000,
-      priceValue: 420000,
-      originalPrice: '500,000 so\'m',
-      icon: '/api/placeholder/50/50'
-    }
-  ];
+  const diamondPackages = async ()=>{
+    let request = await fetch('https://boomuc.uz/api/mobile-legends.php?type=all');
+    let response = request.json();
+    return response;
+  };
 
   // Format price for display
   const formatPrice = (price) => {
