@@ -96,7 +96,8 @@ const MobileLegends = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_id: userId,
+          game_id: userId,      // Foydalanuvchi kiritgan o'yin ID
+          user_id: userId,      // Foydalanuvchi kiritgan o'yin ID
           paket_id: selectedPackage.id
         }),
       });
