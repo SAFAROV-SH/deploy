@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
+import { User } from 'lucide-react';
 
 const MobileLegends = () => {
   // State for modal and user data
@@ -76,8 +77,7 @@ const MobileLegends = () => {
     }
     
     if (userBalance < selectedPackage.priceValue) {
-      // User doesn't have enough balance
-      // We'll show the top-up button in the modal
+      alert("err");
       return;
     }
     
@@ -86,7 +86,7 @@ const MobileLegends = () => {
       setProcessingPurchase(true);
       
       // Send request to API
-      const response = await fetch(`https://boomuc.uz/api/mobile-legends.php?game_id=${userId}&user_id=${user.id}&paket_id=${selectedPackage.id}`, {
+      const response = await fetch(`https://boomuc.uz/api/mobile-legends.php?game_id=${userId}&user_id=${localStorage.getItem('uid')}&paket_id=${selectedPackage.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
