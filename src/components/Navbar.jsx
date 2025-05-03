@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeItem, setActiveItem] = useState('home');
+  const [activeItem, setActiveItem] = useState('service');
   
   useEffect(() => {
     // URL parametrlarini tekshirish
@@ -16,10 +16,10 @@ const Navbar = () => {
       setActiveItem(routeParam);
       localStorage.setItem('activeItem', routeParam);
     } else {
-      // Agar URL parametri bo'lmasa, avtomatik ?route=home ga yo'naltirish
-      setActiveItem('home');
-      localStorage.setItem('activeItem', 'home');
-      navigate('?route=home', { replace: true });
+      // Agar URL parametri bo'lmasa, avtomatik ?route=service ga yo'naltirish
+      setActiveItem('service');
+      localStorage.setItem('activeItem', 'service');
+      navigate('?route=service', { replace: true });
     }
   }, [location.pathname, location.search, navigate]);
 
