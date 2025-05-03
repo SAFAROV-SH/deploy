@@ -17,7 +17,7 @@ import OrderHistory from './components/OrderHistory';
 const App = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const currentRoute = params.get('route') || 'home';
+  const currentRoute = params.get('route') || 'service';
   const contentRef = useRef(null);
   
   // Har safar route o'zgarganda scroll tepaga qaytaradi - kuchaytirilgan versiya
