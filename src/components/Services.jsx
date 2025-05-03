@@ -53,7 +53,7 @@ const Services = () => {
             <div
               key={service.id}
               onClick={service.onClick}
-              className="rounded-lg p-3 cursor-pointer flex flex-col items-center"
+              className="rounded-lg px-3 py-1 cursor-pointer flex flex-col items-center"
               style={{backgroundColor: 'gainsboro', color: 'darkblue'}}
             >
               <div className="w-full h-32 flex items-center justify-center mb-2">
