@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CreditCard, Gift, ChevronDown, ChevronUp, ArrowLeft, Diamond } from 'lucide-react';
+import { CreditCard, Gift, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 
@@ -144,7 +144,7 @@ export default function OrderHistory() {
                       (order.type === 'ID' || order.type === 'id') ? 'bg-indigo-100' : 'bg-purple-100'
                     }`}>
                       {order.type === 'mLegends' ? (
-                        <Diamond size={18} className="text-yellow-600" />
+                        <i className="fa-regular fa-gem text-yellow-600"></i>
                       ) : order.type === 'ID' || order.type === 'id' ? (
                         <CreditCard size={18} className="text-indigo-600" />
                       ) : (
@@ -153,7 +153,7 @@ export default function OrderHistory() {
                     </div>
                     <div className="flex-grow">
                       <p className="font-medium text-gray-800">
-                        {order.type === 'mLegends' ? 'Legend' : 
+                        {order.type === 'mLegends' ? 'M.Legends' : 
                          (order.type === 'ID' || order.type === 'id') ? 'ID' : 'Promokod'}: {' '}
                         <span className="text-indigo-600 font-bold">
                           {order.uc} {order.type === 'mLegends' ? 'Almaz' : 'UC'}
