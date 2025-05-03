@@ -23,8 +23,37 @@ export default function PrizeWheel() {
   const [winner, setWinner] = useState(null);
   const [spinButtonDisabled, setSpinButtonDisabled] = useState(false);
   const [showWinnerAlert, setShowWinnerAlert] = useState(false);
+  const [paddingTop, setPaddingTop] = useState('25%');
   const spinTimeRef = useRef(null);
   
+  // Effect to handle responsive padding based on screen height
+  useEffect(() => {
+    const handleResize = () => {
+      const height = window.innerHeight;
+      if(height > 720 && height < 929){
+        setPaddingTop('25%');
+      }else if(height > 930){
+        setPaddingTop('30%');
+      }else{
+        setPaddingTop('15%');
+      }
+    };
+    
+    // Initial setting
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (spinTimeRef.current) {
+        clearTimeout(spinTimeRef.current);
+      }
+    };
+  }, []);
+
   const spinWheel = () => {
     if (spinning) return;
     
@@ -53,14 +82,6 @@ export default function PrizeWheel() {
     
     setRotation(totalRotation);
   };
-  
-  useEffect(() => {
-    return () => {
-      if (spinTimeRef.current) {
-        clearTimeout(spinTimeRef.current);
-      }
-    };
-  }, []);
 
   // Calculate segments for SVG rendering
   const segments = prizes.map((prize, index) => {
@@ -102,7 +123,7 @@ export default function PrizeWheel() {
     <>
       <Header />
       
-    <div className="flex flex-col items-center min-h-screen bg-white overflow-hidden" style={{ minHeight: '90vh', paddingTop: '25%'}}>
+    <div className="flex flex-col items-center min-h-screen bg-white overflow-hidden" style={{ minHeight: '90vh', paddingTop: paddingTop }}>
       <div className="flex flex-col justify-center w-full max-w-full px-4 py-4 relative">
         <div className="relative w-full aspect-square max-w-xs mx-auto">
           {/* Top indicator triangle marker - with corrected direction */}
