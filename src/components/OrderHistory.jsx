@@ -140,10 +140,10 @@ export default function OrderHistory() {
                     onClick={() => toggleOrderDetails(order.id)}
                   >
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
-                      order.type === 'mLegend' ? 'bg-yellow-100' : 
+                      order.type === 'mLegends' ? 'bg-yellow-100' : 
                       (order.type === 'ID' || order.type === 'id') ? 'bg-indigo-100' : 'bg-purple-100'
                     }`}>
-                      {order.type === 'mLegend' ? (
+                      {order.type === 'mLegends' ? (
                         <Diamond size={18} className="text-yellow-600" />
                       ) : order.type === 'ID' || order.type === 'id' ? (
                         <CreditCard size={18} className="text-indigo-600" />
@@ -153,10 +153,10 @@ export default function OrderHistory() {
                     </div>
                     <div className="flex-grow">
                       <p className="font-medium text-gray-800">
-                        {order.type === 'mLegend' ? 'Legend' : 
+                        {order.type === 'mLegends' ? 'Legend' : 
                          (order.type === 'ID' || order.type === 'id') ? 'ID' : 'Promokod'}: {' '}
                         <span className="text-indigo-600 font-bold">
-                          {order.uc} {order.type === 'mLegend' ? 'Almaz' : 'UC'}
+                          {order.uc} {order.type === 'mLegends' ? 'Almaz' : 'UC'}
                         </span>
                       </p>
                     </div>
