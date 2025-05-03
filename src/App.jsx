@@ -12,6 +12,7 @@ import Service from './components/Services';
 import TelegramStars from './components/telegram-stars';
 import MobileLegends from './components/mobile-legends';
 import TelegramPremium from './components/telegram-premium';
+import OrderHistory from './components/OrderHistory';
 
 const App = () => {
   const location = useLocation();
@@ -50,6 +51,8 @@ const App = () => {
     switch(currentRoute) {
       case 'home':
         return <Home key="home" />;
+        case 'orders':
+        return <OrderHistory key="orders" />;
       case 'service':
         return <Service key="service" />;
       case 'tasks':

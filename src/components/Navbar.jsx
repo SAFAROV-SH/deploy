@@ -33,20 +33,6 @@ const Navbar = () => {
   return (
     <div className="sticky-nav">
       <button 
-        className={`nav-item ${activeItem === 'ucshop' ? 'active' : ''}`} 
-        onClick={() => handleMenuClick('ucshop')}
-      >
-        <i className="fas fa-shopping-cart"></i>
-        <span>Uc servis</span>
-      </button>
-      <button 
-        className={`nav-item ${activeItem === 'service' ? 'active' : ''}`} 
-        onClick={() => handleMenuClick('service')}
-      >
-        <i className="fas bi bi-shield-check"></i>
-        <span>Xizmatlar</span>
-      </button>
-      <button 
         className={`nav-item ${activeItem === 'home' ? 'active' : ''}`} 
         onClick={() => handleMenuClick('home')}
       >
@@ -60,12 +46,27 @@ const Navbar = () => {
         <i className="fas fa-tasks"></i>
         <span>Vazifalar</span>
       </button> 
+      
+      <button 
+        className={`nav-item ${activeItem === 'service' ? 'active' : ''}`} 
+        onClick={() => handleMenuClick('service')}
+      >
+        <i className="fas bi bi-shield-check"></i>
+        <span>Xizmatlar</span>
+      </button>
       <button 
         className={`nav-item ${activeItem === 'deposit' ? 'active' : ''}`} 
         onClick={() => handleMenuClick('deposit')}
       >
         <i className="fas fa-wallet"></i>
         <span>Hisob</span>
+      </button>
+      <button 
+        className={`nav-item ${activeItem === 'orders' ? 'active' : ''}`} 
+        onClick={() => handleMenuClick('orders')}
+      >
+        <i className="fas fa-history"></i>
+        <span>Xaridlarim</span>
       </button>
     </div>
   );
