@@ -3,12 +3,11 @@ import Header from './Header';
 
 const Services = () => {
   const handleServiceClick = (service) => {
-
     const currentUrl = window.location.href;
     
-    // Check if the URL contains ?route=ucshop
+    // Check if the URL contains ?route=service
     if (currentUrl.includes('?route=service')) {
-      // Replace ucshop with ucshop_id
+      // Replace service with specific service
       const newUrl = currentUrl.replace('?route=service', '?route='+service);
       window.location.href = newUrl;
     } else {
@@ -16,62 +15,56 @@ const Services = () => {
       const separator = currentUrl.includes('?') ? '&' : '?';
       window.location.href = `${currentUrl}${separator}route=`+service;
     }
-
   };
 
   const services = [
     {
       id: 'pubg',
-      title: 'PUBG Mobile UC',
-      description: 'O\'yin uchun UC sotib olish',
-      icon: <i className="bi bi-controller"></i>,
+      title: 'PUBG MOBILE',
+      image: 'https://admin.buypin.uz//storage/01JHACX6C6T8X4E1HF4QDDV7MR.png', // Replace with your image URL
       onClick: () => handleServiceClick('ucshop')
     },
     {
       id: 'mobile-legends',
-      title: 'Mobile Legends',
-      description: 'Olmoslar sotib olish xizmati',
-      icon: <i className="bi bi-diamond-fill"></i>,
+      title: 'MOBILE LEGENDS (GLOBAL)',
+      image: 'https://admin.buypin.uz//storage/01JHADPCRX9CMQ3SMGY7S9HTPE.png', // Replace with your image URL
       onClick: () => handleServiceClick('mobile-legends')
     },
     {
-      id: 'telegram-premium',
-      title: 'Telegram Premium',
-      description: 'Premium obunani faollashtirish',
-      icon: <i className="bi bi-telegram"></i>,
-      onClick: () => handleServiceClick('telegram-premium')
+      id: 'telegram-stars',
+      title: 'TELEGRAM STARS',
+      image: 'https://admin.buypin.uz//storage/01JNM1AE3BQWZNCJKZXMMMHPB8.png', // Replace with your image URL
+      onClick: () => handleServiceClick('telegram-stars')
     },
     {
-      id: 'telegram-stars',
-      title: 'Telegram Stars',
-      description: 'Stars va yulduzlar sotib olish',
-      icon: <i className="bi bi-star-fill"></i>,
-      onClick: () => handleServiceClick('telegram-stars')
+      id: 'telegram-premium',
+      title: 'TELEGRAM PREMIUM',
+      image: 'https://admin.buypin.uz//storage/01JNXBK4KJCR1RDV30WJF6BRGP.png', // Replace with your image URL
+      onClick: () => handleServiceClick('telegram-premium')
     }
   ];
 
   return (
     <>
       <Header />
-      <div className="w-full p-4 bg-gray-50 mt-1">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">Bizning Xizmatlar</h1>
-          <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
-        </div>
-        <div className="flex flex-col space-y-3">
+      <div className="w-full p-4 bg-white">
+        <div className="grid grid-cols-2 gap-4">
           {services.map((service) => (
             <div
               key={service.id}
               onClick={service.onClick}
-              style={{ border: '0.5px solid #333' }}
-              className="bg-blue-50 rounded-xl flex items-center p-4 cursor-pointer transition-all hover:bg-blue-100 active:bg-blue-200"
+              className="rounded-lg p-3 cursor-pointer flex flex-col items-center"
+              style={{backgroundColor: 'gainsboro', color: 'darkblue'}}
             >
-              <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl mr-4">
-                {service.icon}
+              <div className="w-full h-32 flex items-center justify-center mb-2">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="max-h-full max-w-full object-contain"
+                />
               </div>
-              <div className="flex flex-col">
-                <div className="text-gray-800 font-medium">{service.title}</div>
-                <div className="text-gray-500 text-sm">{service.description}</div>
+              <div className="text-center text-sm font-medium" style={{color: 'darkblue'}}>
+                {service.title}
               </div>
             </div>
           ))}
