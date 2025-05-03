@@ -72,7 +72,7 @@ const App = () => {
         case 'telegram-premium':
         return <TelegramPremium key="ucpromo" />;
       default:
-        return <Home key="default-home" />;
+        return <Service key="default-home" />;
     }
   };
 
