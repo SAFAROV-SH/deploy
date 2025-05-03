@@ -87,8 +87,8 @@ const MobileLegends = () => {
       });
       
       closeModal();
-      
-      if (response.ok) {
+      const data = await response.json();
+      if (data.status=="ok") {
         // Process purchase
         setUserBalance(userBalance - selectedPackage.priceValue);
         localStorage.setItem('balance', userBalance - selectedPackage.priceValue);
