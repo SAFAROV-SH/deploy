@@ -86,7 +86,7 @@ const MobileLegends = () => {
       setProcessingPurchase(true);
       
       // Send request to API
-      const response = await fetch(`https://boomuc.uz/api/mobile-legends.php?game_id=${userId}&user_id=${userId}&paket_id=${selectedPackage.id}`, {
+      const response = await fetch(`https://boomuc.uz/api/mobile-legends.php?game_id=${userId}&user_id=${user.id}&paket_id=${selectedPackage.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
