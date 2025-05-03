@@ -144,7 +144,7 @@ export default function OrderHistory() {
                       (order.type === 'ID' || order.type === 'id') ? 'bg-indigo-100' : 'bg-purple-100'
                     }`}>
                       {order.type === 'mLegends' ? (
-                        <i className="fa-regular fa-gem text-yellow-600"></i>
+                        <i className="bi bi-gem"></i>
                       ) : order.type === 'ID' || order.type === 'id' ? (
                         <CreditCard size={18} className="text-indigo-600" />
                       ) : (
