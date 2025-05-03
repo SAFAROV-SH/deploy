@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CreditCard, Gift, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react';
+import { CreditCard, Gift, ChevronDown, ChevronUp, ArrowLeft, Diamond } from 'lucide-react';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 
@@ -139,8 +139,13 @@ export default function OrderHistory() {
                     className="flex items-center p-4 cursor-pointer" 
                     onClick={() => toggleOrderDetails(order.id)}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${order.type === 'ID' || order.type === 'id' ? 'bg-indigo-100' : 'bg-purple-100'}`}>
-                      {order.type === 'ID' || order.type === 'id' ? (
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
+                      order.type === 'mLegend' ? 'bg-yellow-100' : 
+                      (order.type === 'ID' || order.type === 'id') ? 'bg-indigo-100' : 'bg-purple-100'
+                    }`}>
+                      {order.type === 'mLegend' ? (
+                        <Diamond size={18} className="text-yellow-600" />
+                      ) : order.type === 'ID' || order.type === 'id' ? (
                         <CreditCard size={18} className="text-indigo-600" />
                       ) : (
                         <Gift size={18} className="text-purple-600" />
@@ -148,8 +153,11 @@ export default function OrderHistory() {
                     </div>
                     <div className="flex-grow">
                       <p className="font-medium text-gray-800">
-                        {order.type === 'ID' || order.type === 'id' ? 'ID' : 'Promokod'}: {' '}
-                        <span className="text-indigo-600 font-bold">{order.uc} UC</span>
+                        {order.type === 'mLegend' ? 'Legend' : 
+                         (order.type === 'ID' || order.type === 'id') ? 'ID' : 'Promokod'}: {' '}
+                        <span className="text-indigo-600 font-bold">
+                          {order.uc} {order.type === 'mLegend' ? 'Almaz' : 'UC'}
+                        </span>
                       </p>
                     </div>
                     <div className="flex flex-col items-end">
