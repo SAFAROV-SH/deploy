@@ -102,7 +102,7 @@ export default function PrizeWheel() {
     <>
       <Header />
       
-    <div className="flex flex-col justify-center min-h-screen bg-white overflow-hidden">
+    <div className="flex flex-col items-center min-h-screen bg-white overflow-hidden" style={{ minHeight: '90vh', paddingTop: '25%'}}>
       <div className="flex flex-col justify-center w-full max-w-full px-4 py-4 relative">
         <div className="relative w-full aspect-square max-w-xs mx-auto">
           {/* Top indicator triangle marker - with corrected direction */}
@@ -115,7 +115,7 @@ export default function PrizeWheel() {
           </div>
           
           {/* Wheel Container with Shadow */}
-          <div className="absolute inset-0 rounded-full shadow-xl flex items-center justify-center">
+          <div className="absolute inset-0 rounded-full shadow-xl flex items-start justify-center">
             {/* SVG Wheel */}
             <svg 
               width="300" 
