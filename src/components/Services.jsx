@@ -55,33 +55,33 @@ const Services = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   };
   
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: { 
       y: 0, 
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 80,
-        damping: 12
+        stiffness: 100,
+        damping: 10
       }
     },
     hover: {
-      scale: 1.05,
-      boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+      scale: 1.03,
+      boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 20
+        stiffness: 400,
+        damping: 15
       }
     },
     tap: {
-      scale: 0.95
+      scale: 0.97
     }
   };
   
@@ -95,9 +95,9 @@ const Services = () => {
   return (
     <>
       <Header />
-      <div className="w-full p-6 bg-white min-h-screen">
+      <div className="w-full p-3 bg-white min-h-screen">
         <motion.h2 
-          className="text-2xl font-bold text-center mb-6 text-gray-800"
+          className="text-xl font-bold text-center mb-3 text-gray-800"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -106,7 +106,7 @@ const Services = () => {
         </motion.h2>
         
         <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+          className="grid grid-cols-2 gap-3"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -120,9 +120,9 @@ const Services = () => {
               whileHover="hover"
               whileTap="tap"
             >
-              <div className="p-6">
+              <div className="p-2">
                 <motion.div 
-                  className="w-full h-40 flex items-center justify-center mb-4"
+                  className="w-full h-24 flex items-center justify-center mb-2"
                   variants={imageVariants}
                   whileHover="hover"
                 >
@@ -136,7 +136,7 @@ const Services = () => {
                   />
                 </motion.div>
                 <motion.div 
-                  className="text-center font-medium py-2 px-4 rounded-lg"
+                  className="text-center text-xs font-medium py-1 px-1 rounded-md"
                   style={{ 
                     backgroundColor: `${service.color}10`, 
                     color: service.color 
