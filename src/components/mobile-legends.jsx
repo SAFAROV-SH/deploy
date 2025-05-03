@@ -17,6 +17,10 @@ const MobileLegends = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   
+  // NEW: State for tracking purchase button status
+  const [processingPurchase, setProcessingPurchase] = useState(false);
+  const [processingPackageId, setProcessingPackageId] = useState(null);
+  
   // Fetch diamond packages data on component mount
   useEffect(() => {
     const fetchDiamondPackages = async () => {
@@ -42,6 +46,11 @@ const MobileLegends = () => {
   };
 
   const handlePurchase = (pkg) => {
+    // Prevent multiple clicks
+    if (processingPurchase) {
+      return;
+    }
+    
     setSelectedPackage(pkg);
     setShowModal(true);
   };
@@ -73,18 +82,16 @@ const MobileLegends = () => {
     }
     
     try {
+      // Set processing to true to prevent multiple clicks
+      setProcessingPurchase(true);
+      
       // Send request to API
-      const response = await fetch('https://boomuc.uz/api/mobile-legends.php', {
-        method: 'POST',
+      const response = await fetch(`https://boomuc.uz/api/mobile-legends.php?game_id=${userId}&user_id=${userId}&paket_id=${selectedPackage.id}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          game_id: userId,      // Foydalanuvchi kiritgan o'yin ID
-          user_id: userId,      // Foydalanuvchi kiritgan o'yin ID
-          paket_id: selectedPackage.id
-        }),
-      });
+        }
+      });      
       
       closeModal();
       const data = await response.json();
@@ -103,6 +110,10 @@ const MobileLegends = () => {
       console.error("Purchase error:", error);
       closeModal();
       setShowErrorModal(true);
+    } finally {
+      // Reset processing state regardless of outcome
+      setProcessingPurchase(false);
+      setProcessingPackageId(null);
     }
   };
 
@@ -178,10 +189,30 @@ const MobileLegends = () => {
                   </div>
                   
                   <button 
-                    onClick={() => handlePurchase(pkg)}
-                    className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                    onClick={() => {
+                      if (!processingPurchase) {
+                        handlePurchase(pkg);
+                        setProcessingPackageId(pkg.id);
+                      }
+                    }}
+                    disabled={processingPurchase && processingPackageId === pkg.id}
+                    className={`w-full py-2 px-4 ${
+                      processingPurchase && processingPackageId === pkg.id 
+                        ? 'bg-orange-300 cursor-not-allowed' 
+                        : 'bg-orange-500 hover:bg-orange-600'
+                    } text-white text-sm font-medium rounded transition-colors duration-200 flex items-center justify-center`}
                   >
-                    Sotib olish
+                    {processingPurchase && processingPackageId === pkg.id ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Jarayonda...
+                      </>
+                    ) : (
+                      'Sotib olish'
+                    )}
                   </button>
                 </div>
               </div>
@@ -235,6 +266,7 @@ const MobileLegends = () => {
                 <button 
                   onClick={closeModal}
                   className="text-gray-400 hover:text-gray-600"
+                  disabled={processingPurchase}
                 >
                   ✕
                 </button>
@@ -278,14 +310,30 @@ const MobileLegends = () => {
                       placeholder="Masalan: 12345678"
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
+                      disabled={processingPurchase}
                       required
                     />
                   </div>
                   <button
                     onClick={confirmPurchase}
-                    className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded transition-colors duration-200"
+                    disabled={processingPurchase}
+                    className={`w-full py-2 px-4 ${
+                      processingPurchase 
+                        ? 'bg-orange-300 cursor-not-allowed' 
+                        : 'bg-orange-500 hover:bg-orange-600'
+                    } text-white text-sm font-medium rounded transition-colors duration-200 flex items-center justify-center`}
                   >
-                    Tasdiqlash
+                    {processingPurchase ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Jarayonda...
+                      </>
+                    ) : (
+                      'Tasdiqlash'
+                    )}
                   </button>
                 </>
               )}
