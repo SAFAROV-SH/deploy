@@ -115,7 +115,7 @@ const Services = () => {
             <motion.div
               key={service.id}
               onClick={service.onClick}
-              className="rounded-2xl overflow-hidden cursor-pointer shadow-md bg-gradient-to-br from-white to-gray-50 border border-gray-200"
+              className="rounded-2xl overflow-hidden cursor-pointer shadow-md bg-gradient-to-br from-orange-200 to-white border border-darkblue-250"
               variants={itemVariants}
               whileHover="hover"
               whileTap="tap"
