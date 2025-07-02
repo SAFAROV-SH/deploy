@@ -31,14 +31,14 @@ fetch('https://boomuc.uz/api/main.php?uid=' + userI, { method: 'GET' })
       // window.location.href = "https://t.me/boomucbot?start=refId1";
       // tg.close();  // Mini appni yopis
     }
-    mybalance = data.balance
+    // mybalance = data.balance
     user.change(data.balance);
     user.changeuid(data.id);
   })
   .catch(error => console.error('Error:', error));
       const user = {
         id: userI,
-        balance: mybalance,
+        balance: 12500,
         name: "SAFAROV_SH",
         uid: 1,
         change(balanc){
